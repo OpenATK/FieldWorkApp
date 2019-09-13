@@ -19,32 +19,37 @@ export default {
       }*/
       ...testFields,
     },
-    seasonFields: {
+    season: {
       /*'2019': {
-        <field-uuid>: {
-          season: 2018,
-          boundary: <geo-json>,
-          operations: {
-            <operation-uuid>
+        fields: {
+          <field-uuid>: {
+            season: 2018,
+            boundary: <geo-json>,
+            operations: {
+              <operation-uuid>
+            }
           }
+        }
+        operations: {
+
         }
       }*/
       '2019': {
-        ...testFields,
-      }
-    },
-    operations: {
-      '2019': {
-        /*'<operation-uuid>': {
-          id: '<operation-uuid>',
-          year: 2019,
-          name: 'Corn Planting',
-          fields: {
-            '<field-uuid>': {
-              status: 'Planned',
+        fields: {
+          ...testFields,
+        },
+        operations: {
+          /*'<operation-uuid>': {
+            id: '<operation-uuid>',
+            year: 2019,
+            name: 'Corn Planting',
+            fields: {
+              '<field-uuid>': {
+                status: 'Planned',
+              }
             }
-          }
-        }*/
+          }*/
+        }
       }
     }
   },

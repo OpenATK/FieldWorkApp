@@ -25,7 +25,7 @@ function createField({store, props, get}) {
   }
   console.log('NewField', JSON.stringify(field, 2));
   store.set(state`fields.${field.id}`, field);
-  store.set(state`seasonFields.2019.${field.id}`, {...field, operations: {}, year: '2019'}); //TODO year
+  store.set(state`season.2019.fields.${field.id}`, {...field, operations: {}, year: '2019'}); //TODO year
 }
 
 

@@ -17,7 +17,7 @@ function createOperation({get, store, props}) {
     name: get(moduleState`name`),
     fields: {}
   }
-  store.set(state`operations.2019.${operation.id}`, operation);
+  store.set(state`season.2019.operations.${operation.id}`, operation); //TODO year
   return {id: operation.id};
 }
 export default [
