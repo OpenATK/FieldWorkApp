@@ -9,7 +9,7 @@ export const fields = (get) => {
   const fieldStyles = get(state`Map.fieldStyles`)
   const selectedField = get(state`Map.selectedField`)
   const operation = get(state`TopBar.OperationDropdown.selectedOperation`)
-  var fieldsToRender = get(state`seasonFields.2019`)
+  var fieldsToRender = get(state`season.2019.fields`) //TODO year
   return _.map(fieldsToRender, (field, id) => {
     var styledField = _.clone(field);
     //Add any styles
