@@ -2,10 +2,7 @@ import { set } from 'cerebral/factories'
 import { moduleState, props, sequences } from "cerebral";
 
 import open from './actions/open';
-
-function oadaConnect({get}) {
-  get(sequences`OADA.connect`)(props)
-}
+import connect from './actions/connect';
 
 export default {
   state: {
@@ -20,6 +17,7 @@ export default {
       open
     ],
     onConnect: [
+      connect,
       set(moduleState`open`, false)
     ],
     onCancel: [
