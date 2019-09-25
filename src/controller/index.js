@@ -53,7 +53,7 @@ export default {
     Modals,
     Map,
     FieldDetails,
-    OADA
+    oada: OADA
   },
   sequences: {
     toggleTitle: [set(state`title`, "You toggled me!")],

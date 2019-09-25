@@ -20,7 +20,7 @@ const _CURRENT_REDIRECT = _REDIRECT_LOCALHOST;
 //const _CURRENT_METADATA = _OPENATK_METADATA;
 //const _CURRENT_REDIRECT = _REDIRECT_OPENATK;
 
-function connect({get, store, props, get}) {
+function connect({get, store, props}) {
   var domain = get(moduleState`domain`);
   var connect = {
     domain,
@@ -30,7 +30,7 @@ function connect({get, store, props, get}) {
       scope:    _SCOPE
     },
     token:         _TOKEN,
-    connection_id: 'CONNECTION_ID'
+    //connection_id: 'CONNECTION_ID'
   }
   return connect;
 }
