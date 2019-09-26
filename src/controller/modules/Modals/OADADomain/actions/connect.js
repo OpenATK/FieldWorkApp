@@ -3,7 +3,7 @@
   - Init oada module
 */
 import oada from "@oada/cerebral-module/sequences";
-import { set } from 'cerebral/factories'
+import { set, when, wait } from 'cerebral/factories'
 import { moduleState, state, props } from "cerebral";
 import _ from 'lodash';
 import uuid from 'uuid/v1'
@@ -34,7 +34,63 @@ function connect({get, store, props}) {
   }
   return connect;
 }
+
+const tree = {
+  bookmarks: {
+    _type: "application/vnd.oada.bookmarks.1+json",
+    _rev: 0,
+    fields: {
+      _type: "application/vnd.oada.fields.1+json",
+      _rev: 0,
+      "*": {
+        _type: "application/vnd.oada.field.1+json",
+        _rev: 0
+      }
+    }
+  }
+};
+
+function fetch({}) {
+  let requests = [{
+      path: '/bookmarks/fields',
+      tree,
+      //connection_id: 'CONNECTION_ID',
+      /*watch: {
+        signals: ['notes.mapOadaToRecords',]
+        // signals: ['notes.handleNotesWatch',]
+      },*/
+    }];
+  return {requests};
+}
+
+function createFieldsResource({}) {
+  let requests = [{
+      tree,
+      data: {},
+      path: '/bookmarks/fields',
+      //connection_id: 'CONNECTION_ID',
+    }];
+  return {requests};
+}
+
+function fieldsExist({get, path}) {
+  var oada = get(state`oada`);
+  console.log('There should be a localhost key here:', oada);
+  return path.true();
+}
+
 export default [
   connect,
-  oada.connect
+  oada.connect,
+  fetch,
+  oada.get,
+  fieldsExist,
+  {
+    true: [],
+    false: [
+      createFieldsResource,
+      set(props`type`, undefined),
+      oada.put
+    ]
+  }
 ]

@@ -8,6 +8,11 @@ import FieldDetails from "./modules/FieldDetails";
 import OADA from "@oada/cerebral-module";
 import testFields from './test/testFields';
 
+function test({store, get}) {
+    console.log('OADA:', get(state`oada`))
+    //store.set('cyrus', 'bacon')
+}
+
 export default {
   state: {
     //Current field list
@@ -22,16 +27,25 @@ export default {
     season: {
       /*'2019': {
         fields: {
-          <field-uuid>: {
+          '<field-uuid>': {
             season: 2018,
             boundary: <geo-json>,
             operations: {
-              <operation-uuid>
+              '<operation-uuid>': {}
             }
           }
-        }
+        },
         operations: {
-
+          '<operation-uuid>': {
+            id: '<operation-uuid>',
+            year: 2019,
+            name: 'Corn Planting',
+            fields: {
+              '<field-uuid>': {
+                status: 'Planned',
+              }
+            }
+          }
         }
       }*/
       '2019': {
@@ -61,7 +75,7 @@ export default {
     oada: OADA
   },
   sequences: {
-    toggleTitle: [set(state`title`, "You toggled me!")],
+    toggleTitle: [ set(state`title`, "You toggled me!"), test],
     onMapClick: [set(state`title`, "Clicked")]
   }
 };

@@ -18,7 +18,10 @@
 7) App changing the farm or grower for a field for a past year.
 8) First new operation is made in a new year.
   - Create season fields matching the master list (or prior season field year if exists? if allow 2yrs in advance)
-
+9) Connected to OADA server
+  - Diff master field list vs. oada fields list
+    - Add to master fields list or oada fields list
+  -   
 
 HERE (maybe?): When a thing is marked as 'planned' started or done, it makes a boundary in the operation.
 
