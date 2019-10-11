@@ -62,7 +62,8 @@ export default connect({
   onChange: sequences`TopBar.OperationDropdown.onChange`,
   onOpenChange: sequences`TopBar.OperationDropdown.onOpenChange`,
   onSearch: sequences`TopBar.OperationDropdown.onSearch`
-}, function DropdownExampleSearchInMenu({style, selectedOperation, operations, open, search, onAdd, onChange, onOpenChange, onSearch}) {
+}, function OperationsDropdown({style, selectedOperation, operations, open, search, onAdd, onChange, onOpenChange, onSearch}) {
+  console.log("operations", operations);
   return (
     <View style={style}>
       <View style={{flexDirection: 'row'}}>

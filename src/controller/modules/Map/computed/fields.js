@@ -9,8 +9,15 @@ export const fields = (get) => {
   const fieldStyles = get(state`Map.fieldStyles`)
   const selectedField = get(state`Map.selectedField`)
   const operation = get(state`TopBar.OperationDropdown.selectedOperation`)
-  var fieldsToRender = get(state`season.2019.fields`) //TODO year
+  var fieldsToRender = [];
+  if (get(state`OADAManager.connected`) == true) {
+    let currentConnection = get(state`OADAManager.currentConnection`)
+    fieldsToRender = get(state`oada.${currentConnection}.bookmarks.seasons.2019.fields`) //TODO year
+  } else {
+    fieldsToRender = get(state`localData.abc123.seasons.2019.fields`) //TODO year, organization
+  }
   return _.map(fieldsToRender, (field, id) => {
+    if (_.startsWith(id, '_')) return false;
     var styledField = _.clone(field);
     //Add any styles
     if (fieldStyles[id] != null) styledField.style = fieldStyles[id];
