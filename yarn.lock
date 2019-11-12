@@ -913,11 +913,6 @@
   dependencies:
     cerebral "^5.1.1"
 
-"@cerebral/storage@^4.2.2":
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/@cerebral/storage/-/storage-4.2.2.tgz#21fbc13bfd9091c15102392aeb0356cc1895be87"
-  integrity sha512-vkjQPONKskEVcjCTqK3u6G6/lIsbS04BDO1t4apVI3Mf7JtsTiKQfOnWCUIQKpM5g1/3qgR5eE3aMmnO4jVYUA==
-
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"
@@ -1121,6 +1116,13 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@mapbox/geojson-area@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@mapbox/geojson-area/-/geojson-area-0.2.2.tgz#18d7814aa36bf23fbbcc379f8e26a22927debf10"
+  integrity sha1-GNeBSqNr8j+7zDefjiaiKSfevxA=
+  dependencies:
+    wgs84 "0.0.0"
+
 "@material-ui/core@^4.0.2":
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.4.3.tgz#65665d2c4e9cb84e018774e1471f6d0417f4535e"
@@ -1210,28 +1212,27 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@oada/cerebral-module@https://github.com/OADA/cerebral-module.git#277ef76":
-  version "2.1.5"
-  resolved "https://github.com/OADA/cerebral-module.git#277ef7617f33d70850967b4843dbb65b9d23b2a8"
+"@oada/cerebral-module@3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@oada/cerebral-module/-/cerebral-module-3.0.0.tgz#a19cc268e0192315ef1d49668143526798d0d143"
+  integrity sha512-N3pNS9ZEtQ+s+gI+LBH+UC2ID+SvOhlMVMP0CuAk3go+pETOZpSTzXz43B4YzwcuJDvgARnQ+3oG5pdx8CFe5A==
   dependencies:
-    "@cerebral/storage" "^4.2.2"
-    "@oada/cerebral-provider" "^2.1.0"
+    "@oada/cerebral-provider" "^3.0.0"
     assert "^1.4.1"
     babel-polyfill "^6.26.0"
     babel-preset-env "^1.7.0"
     babel-preset-latest "^6.24.1"
     babel-preset-stage-3 "^6.24.1"
     babel-register "^6.26.0"
-    cerebral "^4.2.2"
     chai "^4.1.2"
     debug "^4.1.0"
     fs "^0.0.1-security"
     url "^0.11.0"
 
-"@oada/cerebral-provider@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@oada/cerebral-provider/-/cerebral-provider-2.1.0.tgz#9e49bb03f1af8fe6ee47e07fb7c2ff9e1bda7f2f"
-  integrity sha512-LJmJ0pf7b6KCuVSJleVwwz+uUrlfrSRve8aMZZLruCUF/x58golak5cCCfNttlwkdh1bCb84clT5j82X7NlYCw==
+"@oada/cerebral-provider@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@oada/cerebral-provider/-/cerebral-provider-3.0.0.tgz#b490c1bf7b494c5e67098c591fbb53d097acc8ce"
+  integrity sha512-hRe4YzOZpkZR31jx7EC45Sf9/adZqHF0ucENBfzp9rcUvKA+WAPbBqtXPP/Wya/TMCj7LIDIqY9vkLzSU63v1Q==
   dependencies:
     "@oada/oada-cache" "^2.1.0"
     babel-polyfill "^6.26.0"
@@ -3332,14 +3333,6 @@ cerebral@5.1.1, cerebral@^5.1.1:
   dependencies:
     es6-error "^4.0.2"
     function-tree "^3.3.1"
-
-cerebral@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/cerebral/-/cerebral-4.2.2.tgz#11fe5c51f9508bd4ca403deb56e98279f2f658e9"
-  integrity sha512-dMh/dIMOoVJtCVRwhNkAaU8gQJYz+QT71bR3k8kuObE2Bg8dE6tkskQNN9jAefJzv5o6EhgAitK2OMicMfCTdQ==
-  dependencies:
-    es6-error "^4.0.2"
-    function-tree "^3.2.2"
 
 chai-as-promised@^7.1.1:
   version "7.1.1"
@@ -5526,7 +5519,7 @@ function-bind@^1.1.1:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-function-tree@^3.2.2, function-tree@^3.3.1:
+function-tree@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/function-tree/-/function-tree-3.3.1.tgz#4ff11ab9d5341c64104e09fbba6ca864003093c7"
   integrity sha512-4sRZHwlsCkTOYJnubunF+3tIjnTNzM1q61IirLwicWD4IH9sanQOPiISXO1U8qYVbgpqvBsnaTY4DRD09LBQGQ==
@@ -12118,6 +12111,11 @@ websocket-extensions@>=0.1.1:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
   integrity sha512-nqHUnMXmBzT0w570r2JpJxfiSD1IzoI+HGVdd3aZ0yNi3ngvQ4jv1dtHt5VGxfI2yj5yqImPhOK4vmIh2xMbGg==
+
+wgs84@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/wgs84/-/wgs84-0.0.0.tgz#34fdc555917b6e57cf2a282ed043710c049cdc76"
+  integrity sha1-NP3FVZF7blfPKigu0ENxDASc3HY=
 
 whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3, whatwg-encoding@^1.0.5:
   version "1.0.5"

@@ -7,7 +7,7 @@ function fetch({}) {
       path: '/bookmarks/fields',
       tree,
       /*watch: {
-        signals: ['notes.mapOadaToRecords',]
+        signals: ['toggleTitle',]
         // signals: ['notes.handleNotesWatch',]
       },*/
     },

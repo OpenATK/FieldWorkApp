@@ -4,6 +4,7 @@
 
 import { state } from 'cerebral'
 import _ from 'lodash';
+import geojsonArea from '@mapbox/geojson-area';
 
 export default function field (get) {
   const selectedFieldId = get(state`Map.selectedField`);
@@ -18,7 +19,7 @@ export default function field (get) {
   } else {
     field = get(state`localData.abc123.seasons.2019.fields.${selectedFieldId}`); //TODO year, organization
   }
-
   if (field == null) return null;
-  return _.merge({}, field, {status});
+  const acres = geojsonArea.geometry(field.boundary) * 0.000247105 //Meters to acres;
+  return _.merge({}, field, {status, acres});
 }

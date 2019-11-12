@@ -4,23 +4,19 @@
 
 import { moduleState, state } from 'cerebral'
 import _ from 'lodash';
+import seasonFields from '../../../computed/seasonFields';
 
 export const fields = (get) => {
   const fieldStyles = get(state`Map.fieldStyles`)
   const selectedField = get(state`Map.selectedField`)
   const operation = get(state`TopBar.OperationDropdown.selectedOperation`)
-  var fieldsToRender = [];
-  if (get(state`OADAManager.connected`) == true) {
-    let currentConnection = get(state`OADAManager.currentConnection`)
-    fieldsToRender = get(state`oada.${currentConnection}.bookmarks.seasons.2019.fields`) //TODO year
-  } else {
-    fieldsToRender = get(state`localData.abc123.seasons.2019.fields`) //TODO year, organization
-  }
+  const fieldsToRender = seasonFields(get);
   return _.map(fieldsToRender, (field, id) => {
     if (_.startsWith(id, '_')) return false;
     var styledField = _.clone(field);
     //Add any styles
     if (fieldStyles[id] != null) styledField.style = fieldStyles[id];
+    //Fill based on status of current operation
     if (operation) {
       var color = "white"
       if (operation.fields[id]) {
@@ -30,7 +26,6 @@ export const fields = (get) => {
       }
       styledField.style = _.merge({}, styledField.style, {fillColor: color, color})
     }
-    //TODO fill based on status of current operation
     return styledField;
   })
 }

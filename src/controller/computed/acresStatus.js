@@ -5,22 +5,21 @@
 import { state } from 'cerebral'
 import _ from 'lodash';
 import geojsonArea from '@mapbox/geojson-area';
-import {selectedOperation} from '../modules/TopBar/modules/OperationDropdown/computed/operations.js';
-import fields from './fields';
+import operationFields from './operationFields';
+import seasonFields from './seasonFields';
 
 export default function acresStatus (get) {
-  //Get the selected operation
-  let operation = selectedOperation(get);  //Grabbing the computed from the state does not work here. Not sure why. See: https://github.com/cerebral/cerebral/issues/1397
   //Get id's of all fields in this operation
-  let fieldOperations = _.get(operation, 'fields') || [];
+  let fieldOperations = operationFields(get);
+  let fieldsSeason = seasonFields(get);
   //Loop through each field, totaling acres.
   let planned = 0;
   let started = 0;
   let done = 0;
-  return {planned, started, done};
   _.forEach(fieldOperations, (fieldOperation, key) => {
     //Get field
-    let field = get(state`localData.abc123.seasons.2019.fields.${key}`)  //TODO year, organization
+    let field = fieldsSeason[key];
+    if (field == null) return;
     //Compute area of field boundary
     let area = geojsonArea.geometry(field.boundary) * 0.000247105 //Meters to acres;
     if (fieldOperation.status == 'planned') {
@@ -31,5 +30,13 @@ export default function acresStatus (get) {
       done += area;
     }
   });
-  return {planned, started, done};
+  let total = planned + started + done;
+  return {
+    planned: Math.round(planned),
+    plannedPercentage: Math.round((planned / (total || 1)) * 100),
+    started: Math.round(started),
+    startedPercentage: Math.round((started / (total || 1)) * 100),
+    done: Math.round(done),
+    donePercentage: Math.round((done / (total || 1)) * 100),
+  };
 }

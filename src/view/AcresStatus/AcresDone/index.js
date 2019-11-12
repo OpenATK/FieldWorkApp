@@ -7,12 +7,12 @@ import { connect } from '@cerebral/react'
 export default connect({
   selectedOperation: state`TopBar.OperationDropdown.selectedOperation`,
   acresStatus: state`acresStatus`,
-}, function AcresPlanned({acresStatus, selectedOperation}) {
+}, function AcresDone({acresStatus, selectedOperation}) {
   if (selectedOperation == null) return null;
   return (
-    <View style={{backgroundColor: '#c50003', paddingLeft: 7, paddingRight: 7, paddingTop: 5, paddingBottom: 5, borderRadius: 5}}>
+    <View style={{backgroundColor: '#5bb25f', paddingLeft: 7, paddingRight: 7, paddingTop: 5, paddingBottom: 5, borderRadius: 5}}>
       <Text style={{color: 'white', textShadowColor: '#000', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 2}}>
-        {`${acresStatus.planned} ac (${acresStatus.plannedPercentage}%)`}
+        {`${acresStatus.done} ac (${acresStatus.donePercentage}%)`}
       </Text>
     </View>
   );

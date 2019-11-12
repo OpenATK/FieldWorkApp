@@ -4,7 +4,7 @@
 
 import { state } from 'cerebral'
 
-export default function fields (get) {
+export default function seasonFields (get) {
   let fields = [];
   if (get(state`OADAManager.connected`) == true) {
     let currentConnection = get(state`OADAManager.currentConnection`)

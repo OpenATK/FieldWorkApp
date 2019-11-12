@@ -1,4 +1,5 @@
 import onStatusChange from './sequences/onStatusChange'
+import onEditFieldClick from './sequences/onEditFieldClick'
 
 import field from './computed/field'
 import open from './actions/open';
@@ -11,6 +12,7 @@ export default {
   },
   sequences: {
     onStatusChange,
+    onEditFieldClick,
     onOpen: [
       open
     ],
