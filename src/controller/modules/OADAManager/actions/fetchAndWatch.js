@@ -6,10 +6,9 @@ function fetch({}) {
     {
       path: '/bookmarks/fields',
       tree,
-      /*watch: {
-        signals: ['toggleTitle',]
-        // signals: ['notes.handleNotesWatch',]
-      },*/
+      watch: {
+        signals: ['OADAManager.onFieldChanged']
+      }
     },
     {
       path: '/bookmarks/seasons',
