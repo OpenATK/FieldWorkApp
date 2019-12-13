@@ -33,7 +33,7 @@ function addFieldToLocalData({store, props, get}) {
   store.set(state`localData.abc123.fields.${field.id}`, field); //TODO organization
   store.set(state`localData.abc123.seasons.2019.fields.${field.id}`, {...field, operations: {}, year: '2019'}); //TODO year, organization
 }
-function addFieldToOADA({props}) {
+function addFieldToOADA({props, get}) {
   let field = props.field;
   //Add to OADA
   let requests = [
@@ -48,7 +48,8 @@ function addFieldToOADA({props}) {
       path: `/bookmarks/seasons/2019/fields/${field.id}`
     }
   ];
-  return {requests, connection_id: 'localhost'}; //TODO connection id
+  let currentConnection = get(state`OADAManager.currentConnection`)
+  return {requests, connection_id: currentConnection};
 }
 
 export default [

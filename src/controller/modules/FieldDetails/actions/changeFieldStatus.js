@@ -47,7 +47,7 @@ function changeOADAFieldStatus({get, props, path}) {
         path: `/bookmarks/seasons/2019/fields/${selectedFieldId}/operations/${operation.id}` //TODO year
       }
     ];
-    return path.delete({requests, connection_id: 'localhost'}); //TODO connection id
+    return path.delete({requests, connection_id: currentConnection});
   } else {
     let requests = [
       {  //Add field to operation
@@ -63,7 +63,7 @@ function changeOADAFieldStatus({get, props, path}) {
         path: `/bookmarks/seasons/2019/fields/${selectedFieldId}/operations/${operation.id}` //TODO year
       }
     ];
-    return path.put({requests, connection_id: 'localhost'}); //TODO connection id
+    return path.put({requests, connection_id: currentConnection});
   }
 }
 

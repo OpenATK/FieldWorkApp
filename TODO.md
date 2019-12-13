@@ -1,0 +1,9 @@
+- OADA sync season fields (just need to do a fetch and watch)
+- Editing fields
+- Selecting farms for fields
+- Adding / editing farms
+- Saving local data
+- Selecting a year/season
+- Field list
+- Logging out of OADA
+- Add in organizations (multiple oada connections)

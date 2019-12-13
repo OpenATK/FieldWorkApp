@@ -25,7 +25,7 @@ function addOperationToLocalData({store, props}) {
   let operation = props.operation;
   store.set(state`localData.abc123.seasons.2019.operations.${operation.id}`, operation); //TODO year, organization
 }
-function addOperationToOADA({props}) {
+function addOperationToOADA({props, get}) {
   let operation = props.operation;
   //Add to OADA
   let requests = [
@@ -35,7 +35,8 @@ function addOperationToOADA({props}) {
       path: `/bookmarks/seasons/2019/operations/${operation.id}` //TODO year
     }
   ];
-  return {requests, connection_id: 'localhost'}; //TODO connection_id
+  let currentConnection = get(state`OADAManager.currentConnection`)
+  return {requests, connection_id: currentConnection};
 }
 
 export default [

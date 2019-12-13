@@ -7,7 +7,7 @@ import { when, set } from 'cerebral/factories'
 import oada from "@oada/cerebral-module/sequences";
 import tree from "../tree.js"
 
-function changeSeasonFields({props, path}) {
+function changeSeasonFields({props, path, get}) {
   let requests = [];
   _.forEach(props.fieldsChanged, (fieldChange) => {
     let data = {};
@@ -24,7 +24,8 @@ function changeSeasonFields({props, path}) {
     )
   })
   if (requests.length == 0) return path.doNothing();
-  return path.put({requests, connection_id: 'localhost'}); //TODO connection id
+  let currentConnection = get(state`OADAManager.currentConnection`)
+  return path.put({requests, connection_id: currentConnection});
 }
 
 export default [
