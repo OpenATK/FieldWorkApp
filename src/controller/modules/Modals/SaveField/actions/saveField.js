@@ -5,8 +5,11 @@
 */
 
 import { state, moduleState } from "cerebral";
+import { set, when } from 'cerebral/factories'
 import _ from 'lodash';
 import uuid from 'uuid/v1'
+import oada from "@oada/cerebral-module/sequences";
+import tree from "../../../OADAManager/tree";
 
 function convertToGEOJSON({get}) {
   const points = get(state`Map.BoundaryDrawing.boundary`)
@@ -16,20 +19,50 @@ function convertToGEOJSON({get}) {
   }
   return {boundary}
 }
-
-function createField({store, props, get}) {
+function createField({get, props}) {
   var field = {
     id: uuid(),
     name: get(moduleState`name`),
     boundary: props.boundary
   }
   console.log('NewField', JSON.stringify(field, 2));
-  store.set(state`fields.${field.id}`, field);
-  store.set(state`seasonFields.2019.${field.id}`, {...field, operations: {}, year: '2019'}); //TODO year
+  return {field}
 }
-
+function addFieldToLocalData({store, props, get}) {
+  let field = props.field;
+  store.set(state`localData.abc123.fields.${field.id}`, field); //TODO organization
+  store.set(state`localData.abc123.seasons.2019.fields.${field.id}`, {...field, operations: {}, year: '2019'}); //TODO year, organization
+}
+function addFieldToOADA({props, get}) {
+  let field = props.field;
+  //Add to OADA
+  let requests = [
+    {
+      tree,
+      data: field,
+      path: `/bookmarks/fields/${field.id}`
+    },
+    {
+      tree,
+      data: {...field, operations: {}, year: '2019'},
+      path: `/bookmarks/seasons/2019/fields/${field.id}`
+    }
+  ];
+  let currentConnection = get(state`OADAManager.currentConnection`)
+  return {requests, connection_id: currentConnection};
+}
 
 export default [
   convertToGEOJSON,
-  createField
+  createField,
+  when(state`OADAManager.connected`),
+  {
+    true: [
+      addFieldToOADA,
+      oada.put
+    ],
+    false: [
+      addFieldToLocalData
+    ]
+  }
 ]

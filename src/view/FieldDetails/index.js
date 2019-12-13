@@ -17,8 +17,9 @@ export default connect(
   {
     open: state`FieldDetails.open`,
     field: state`FieldDetails.field`,
-    onStatusChange: sequences`FieldDetails.onStatusChange`
-  }, function FieldDetails({open, field, onStatusChange}) {
+    onStatusChange: sequences`FieldDetails.onStatusChange`,
+    onEditFieldClick: sequences`FieldDetails.onEditFieldClick`,
+  }, function FieldDetails({open, field, onStatusChange, onEditFieldClick}) {
     if (!Boolean(field)) {
       open = false;
       field = {};
@@ -28,8 +29,8 @@ export default connect(
         <View style={{paddingBottom: 20}}>
           <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>
               <Text style={{fontWeight: 'bold', fontSize: 20}}>{field.name}</Text>
-              {/*}<Text style={{marginLeft: 7, fontSize: 20}}>- 40 ac</Text>*/}
-            <IconButton>
+              {<Text style={{marginLeft: 7, fontSize: 20}}>{`- ${Math.round(field.acres)} ac`}</Text>}
+            <IconButton onClick={()=>{onEditFieldClick()}}>
               <EditIcon fontSize="small" />
             </IconButton>
           </View>

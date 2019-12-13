@@ -34,7 +34,7 @@ if (process.env.NODE_ENV !== 'production') {
 
     // Shows a warning when you have components with number of
     // state dependencies or signals above the set number
-    bigComponentsWarning: 5,
+    bigComponentsWarning: 15,
 
     // Warnings when passing objects and arrays as props to child
     // components. They should rather be connected directly

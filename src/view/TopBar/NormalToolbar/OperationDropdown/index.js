@@ -5,53 +5,13 @@ import {View, Text} from 'react-native'
 import { state, sequences } from 'cerebral'
 import { connect } from '@cerebral/react'
 
-const tagOptions = [
+/*const tagOptions = [
   {
     text: 'Important',
     value: 'Important',
     label: { color: 'red', empty: true, circular: true },
-  },
-  {
-    text: 'Announcement',
-    value: 'Announcement',
-    label: { color: 'blue', empty: true, circular: true }
-  },
-  {
-    text: 'Cannot Fix',
-    value: 'Cannot Fix',
-    label: { color: 'black', empty: true, circular: true },
-  },
-  {
-    text: 'News',
-    value: 'News',
-    label: { color: 'purple', empty: true, circular: true },
-  },
-  {
-    text: 'Enhancement',
-    value: 'Enhancement',
-    label: { color: 'orange', empty: true, circular: true },
-  },
-  {
-    text: 'Change Declined',
-    value: 'Change Declined',
-    label: { empty: true, circular: true },
-  },
-  {
-    text: 'Off Topic',
-    value: 'Off Topic',
-    label: { color: 'yellow', empty: true, circular: true },
-  },
-  {
-    text: 'Interesting',
-    value: 'Interesting',
-    label: { color: 'pink', empty: true, circular: true },
-  },
-  {
-    text: 'Discussion',
-    value: 'Discussion',
-    label: { color: 'green', empty: true, circular: true },
   }
-]
+]*/
 
 export default connect({
   selectedOperation: state`TopBar.OperationDropdown.selectedOperation`,
@@ -62,7 +22,7 @@ export default connect({
   onChange: sequences`TopBar.OperationDropdown.onChange`,
   onOpenChange: sequences`TopBar.OperationDropdown.onOpenChange`,
   onSearch: sequences`TopBar.OperationDropdown.onSearch`
-}, function DropdownExampleSearchInMenu({style, selectedOperation, operations, open, search, onAdd, onChange, onOpenChange, onSearch}) {
+}, function OperationsDropdown({style, selectedOperation, operations, open, search, onAdd, onChange, onOpenChange, onSearch}) {
   return (
     <View style={style}>
       <View style={{flexDirection: 'row'}}>

@@ -25,7 +25,7 @@ export default connect(
         </Modal.Content>
         <Modal.Actions>
           <Button negative onClick={() => onCancel()}>Cancel</Button>
-          <Button positive icon='checkmark' labelPosition='right' content='Connect' onClick={() => onConnect()} />
+          <Button positive icon='checkmark' labelPosition='right' content='Connect' onClick={() => onConnect({})} />
         </Modal.Actions>
       </Modal>
     );

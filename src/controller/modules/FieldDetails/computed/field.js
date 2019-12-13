@@ -4,13 +4,22 @@
 
 import { state } from 'cerebral'
 import _ from 'lodash';
+import geojsonArea from '@mapbox/geojson-area';
 
 export default function field (get) {
   const selectedFieldId = get(state`Map.selectedField`);
   const operation = get(state`TopBar.OperationDropdown.selectedOperation`) //Can't use moduleState here or won't rerun when change occurs
   if (operation == null) return null;
   const status = _.get(operation.fields[selectedFieldId], 'status');
-  const field = get(state`seasonFields.2019.${selectedFieldId}`);
+
+  let field = null;
+  if (get(state`OADAManager.connected`) == true) {
+    let currentConnection = get(state`OADAManager.currentConnection`)
+    field = get(state`oada.${currentConnection}.bookmarks.seasons.2019.fields.${selectedFieldId}`); //TODO year
+  } else {
+    field = get(state`localData.abc123.seasons.2019.fields.${selectedFieldId}`); //TODO year, organization
+  }
   if (field == null) return null;
-  return _.merge({}, field, {status});
+  const acres = geojsonArea.geometry(field.boundary) * 0.000247105 //Meters to acres;
+  return _.merge({}, field, {status, acres});
 }
