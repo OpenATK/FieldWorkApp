@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.b19c127a.chunk.css",
-    "main.js": "/static/js/main.8b9de00f.chunk.js",
-    "main.js.map": "/static/js/main.8b9de00f.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/js/2.dcdfc182.chunk.js": "/static/js/2.dcdfc182.chunk.js",
-    "static/js/2.dcdfc182.chunk.js.map": "/static/js/2.dcdfc182.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.21ad9c587bc3374196c48e2035e0f499.js": "/precache-manifest.21ad9c587bc3374196c48e2035e0f499.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.b19c127a.chunk.css.map": "/static/css/main.b19c127a.chunk.css.map",
-    "static/media/logo.svg": "/static/media/logo.5d5d9eef.svg"
+    "main.css": "/FieldWorkApp/static/css/main.b19c127a.chunk.css",
+    "main.js": "/FieldWorkApp/static/js/main.8e678479.chunk.js",
+    "main.js.map": "/FieldWorkApp/static/js/main.8e678479.chunk.js.map",
+    "runtime~main.js": "/FieldWorkApp/static/js/runtime~main.c3fd910e.js",
+    "runtime~main.js.map": "/FieldWorkApp/static/js/runtime~main.c3fd910e.js.map",
+    "static/js/2.40de7afd.chunk.js": "/FieldWorkApp/static/js/2.40de7afd.chunk.js",
+    "static/js/2.40de7afd.chunk.js.map": "/FieldWorkApp/static/js/2.40de7afd.chunk.js.map",
+    "index.html": "/FieldWorkApp/index.html",
+    "precache-manifest.351f76ac42b32c61c1f54053dbe51563.js": "/FieldWorkApp/precache-manifest.351f76ac42b32c61c1f54053dbe51563.js",
+    "service-worker.js": "/FieldWorkApp/service-worker.js",
+    "static/css/main.b19c127a.chunk.css.map": "/FieldWorkApp/static/css/main.b19c127a.chunk.css.map",
+    "static/media/logo.svg": "/FieldWorkApp/static/media/logo.5d5d9eef.svg"
   }
 }
