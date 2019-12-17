@@ -16,7 +16,7 @@ function isDrawing({path, get}) {
 export default [
   isDrawing,
   {
-    true: [],
+    true: [], //Don't open a field if we are drawing on the map (adding/editing)
     false: [
       styleField.unhighlight(moduleState`selectedField`),
       set(moduleState`selectedField`, props`id`),
