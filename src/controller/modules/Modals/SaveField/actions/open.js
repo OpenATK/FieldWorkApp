@@ -1,5 +1,5 @@
 import { set } from 'cerebral/factories'
-import { moduleState, state } from "cerebral";
+import { moduleState, state, props } from "cerebral";
 
 import getSeasonField from '../../../../helpers/getSeasonField';
 
@@ -12,15 +12,15 @@ function isEditing({get, path}) {
 function getField({get, props, store}) {
   //Get current season field from editingField id
   let field = getSeasonField(get, props.editingField);
-  console.log('field', field);
-  store.set(moduleState`name`, 'Test');
+  return {field};
 }
 
 export default [
   isEditing,
   {
-    true: [ //Set name to current name
-      getField
+    true: [
+      getField,
+      set(moduleState`name`, props`field.name`) //Populate the name in the modal popup
     ],
     false: [
       set(moduleState`name`, '')

@@ -10,7 +10,14 @@ import _ from 'lodash';
 import uuid from 'uuid/v1'
 import oada from "@oada/cerebral-module/sequences";
 import tree from "../../../OADAManager/tree";
+import getSeasonField from '../../../../helpers/getSeasonField';
 
+
+function isEditing({get, path}) {
+  let editingField = get(state`Map.editingField`);
+  if (editingField == null) return path.false();
+  return path.true({editingField});
+}
 function convertToGEOJSON({get}) {
   const points = get(state`Map.BoundaryDrawing.boundary`)
   var boundary = {
@@ -18,6 +25,39 @@ function convertToGEOJSON({get}) {
     "coordinates": [_.map(points, (p) => {return [p[1], p[0]]})] //Flip lat/lng and add array around
   }
   return {boundary}
+}
+function getChanges({get, props, store}) {
+  //See if name or boundary has changed
+  let field = getSeasonField(get, props.editingField);
+  let newName = get(moduleState`name`);
+  let newBoundary = props.boundary;
+  var changes = {};
+  if (newName != field.name) changes.name = newName;
+  if (_.isEqual(newBoundary,field.boundary) == false) changes.boundary = newBoundary;
+  return {changes};
+}
+function saveChangesToLocalData({store, props, get}) {
+  if (_.isEmpty(props.changes)) return;
+  store.merge(state`localData.abc123.fields.${props.editingField}`, props.changes); //TODO organization
+  store.merge(state`localData.abc123.seasons.2019.fields.${props.editingField}`, props.changes); //TODO year, organization
+}
+function saveChangesToOADA({props, get}) {
+  if (_.isEmpty(props.changes)) return;
+  //Add to OADA
+  let requests = [
+    {
+      tree,
+      data: props.changes,
+      path: `/bookmarks/fields/${props.editingField}`
+    },
+    {
+      tree,
+      data: props.changes,
+      path: `/bookmarks/seasons/2019/fields/${props.editingField}` //TODO year
+    }
+  ];
+  let currentConnection = get(state`OADAManager.currentConnection`)
+  return {requests, connection_id: currentConnection};
 }
 function createField({get, props}) {
   var field = {
@@ -44,8 +84,8 @@ function addFieldToOADA({props, get}) {
     },
     {
       tree,
-      data: {...field, operations: {}, year: '2019'},
-      path: `/bookmarks/seasons/2019/fields/${field.id}`
+      data: {...field, operations: {}, year: '2019'}, //TODO year
+      path: `/bookmarks/seasons/2019/fields/${field.id}` //TODO year
     }
   ];
   let currentConnection = get(state`OADAManager.currentConnection`)
@@ -54,15 +94,33 @@ function addFieldToOADA({props, get}) {
 
 export default [
   convertToGEOJSON,
-  createField,
-  when(state`OADAManager.connected`),
+  isEditing,
   {
     true: [
-      addFieldToOADA,
-      oada.put
+      getChanges,
+      when(state`OADAManager.connected`),
+      {
+        true: [
+          saveChangesToOADA,
+          oada.put
+        ],
+        false: [
+          saveChangesToLocalData
+        ]
+      }
     ],
     false: [
-      addFieldToLocalData
+      createField,
+      when(state`OADAManager.connected`),
+      {
+        true: [
+          addFieldToOADA,
+          oada.put
+        ],
+        false: [
+          addFieldToLocalData
+        ]
+      }
     ]
   }
 ]
