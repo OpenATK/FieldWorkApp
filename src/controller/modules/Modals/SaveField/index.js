@@ -1,5 +1,5 @@
 import { set } from 'cerebral/factories'
-import { moduleState, props, sequences } from "cerebral";
+import { moduleState, props, sequences, state } from "cerebral";
 
 import saveField from './actions/saveField';
 import open from './actions/open';
@@ -23,11 +23,13 @@ export default {
     onSave: [
       saveField,
       stopDrawing,
+      set(state`Map.editingField`, null),
       set(moduleState`open`, false)
     ],
     onCancel: [
       stopDrawing,
-      set(moduleState`open`, false),
+      set(state`Map.editingField`, null),
+      set(moduleState`open`, false)
     ]
   }
 };

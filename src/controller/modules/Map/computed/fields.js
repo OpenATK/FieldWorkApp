@@ -8,13 +8,13 @@ import seasonFields from '../../../computed/seasonFields';
 
 export const fields = (get) => {
   const fieldStyles = get(state`Map.fieldStyles`)
-  const selectedField = get(state`Map.selectedField`)
+  const editingField = get(state`Map.editingField`)
   const drawingBoundary = get(state`Map.BoundaryDrawing.drawing`)
   const operation = get(state`TopBar.OperationDropdown.selectedOperation`)
   const fieldsToRender = seasonFields(get);
   return _.map(fieldsToRender, (field, id) => {
     if (_.startsWith(id, '_')) return false;
-    if (selectedField == id && drawingBoundary) return false;
+    if (editingField == id) return false;
     var styledField = _.clone(field);
     //Add any styles
     if (fieldStyles[id] != null) styledField.style = fieldStyles[id];

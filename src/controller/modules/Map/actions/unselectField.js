@@ -1,3 +1,7 @@
+/*
+  Increase stroke size on field
+*/
+
 import styleField from '../actions/styleField'
 
 import { moduleState, state, sequences } from 'cerebral'
@@ -8,21 +12,11 @@ function fieldIsSelected({path, get}) {
   if (selectedField == null) return path.false();
   return path.true();
 }
-function isDrawing({path, get}) {
-  //Is drawing a field
-  const drawing = get(state`Map.BoundaryDrawing.drawing`);
-  if (drawing) return path.true();
-  return path.false();
-}
 function closeFieldDetails({get}) {
   get(sequences`FieldDetails.onClose`)()
 }
 
-function callForModules({get, props}) {
-  get(sequences`Map.BoundaryDrawing.onMapClick`)(props)
-}
-
-export default sequence('Map.onMapClick', [
+export default [
   fieldIsSelected,
   {
     true: [
@@ -33,6 +27,5 @@ export default sequence('Map.onMapClick', [
     false: [
 
     ]
-  },
-  callForModules
-])
+  }
+]
