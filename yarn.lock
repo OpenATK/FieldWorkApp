@@ -1212,12 +1212,12 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@oada/cerebral-module@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@oada/cerebral-module/-/cerebral-module-3.0.3.tgz#b13867f14adc22e1c4cfd886b60be61bb6efdaa5"
-  integrity sha512-ynSZ72+X5cyH123R1/0qCj4H6Wkxd/pWfEtIJYOFNtvc97EGkWafjnCk+WUCg6ggAVwelWt/9KBeusq+9B8RLg==
+"@oada/cerebral-module@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@oada/cerebral-module/-/cerebral-module-3.0.4.tgz#eda62a7e7aa305c52b2e33f075821fa0ae49624a"
+  integrity sha512-mAkB6t7td7m9cXHx8nQWgSMdgtmRcI2XEXYGMKgM708m6lnMLu67dl5YkjliDidFcjRZ8ZYRuYwOq/XaR8cSHA==
   dependencies:
-    "@oada/cerebral-provider" "^3.0.3"
+    "@oada/cerebral-provider" "^3.0.4"
     assert "^1.4.1"
     babel-polyfill "^6.26.0"
     babel-preset-env "^1.7.0"
@@ -1229,7 +1229,7 @@
     fs "^0.0.1-security"
     url "^0.11.0"
 
-"@oada/cerebral-provider@^3.0.3":
+"@oada/cerebral-provider@^3.0.4":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/@oada/cerebral-provider/-/cerebral-provider-3.0.4.tgz#fe25edb5afef92d47c57471c2146dbc5c3141506"
   integrity sha512-Q1hITC4/vuktBvcSEGw0QVeaWLXLa8Nt7/AKqGCpB3Offgj0mEvFOHiT92k4vI+0RneECFAZeXuiPtECW0EscQ==

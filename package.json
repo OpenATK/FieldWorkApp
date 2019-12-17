@@ -1,6 +1,6 @@
 {
   "name": "field-work",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "homepage": "https://OpenATK.github.io/FieldWorkApp",
   "dependencies": {
@@ -8,7 +8,7 @@
     "@mapbox/geojson-area": "^0.2.2",
     "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^4.0.1",
-    "@oada/cerebral-module": "^3.0.3",
+    "@oada/cerebral-module": "^3.0.4",
     "babel-preset-react": "^6.24.1",
     "cerebral": "5.1.1",
     "gh-pages": "^2.1.1",
