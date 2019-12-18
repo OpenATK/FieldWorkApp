@@ -5,7 +5,7 @@ function onFieldChanged({props, get, store}) {
   let changeType = _.get(props, 'response.change.type');
   if (changeType == 'merge') {
     var fieldsChanged = [];
-    _.forEach(_.get(props, 'response.change.body'), (obj, key) => {
+    _.forEach(_.get(props, 'response.change.body.data'), (obj, key) => {
       if (_.startsWith(key, '_')) return false;
       fieldsChanged.push({fieldId: key, name: obj.name, boundary: obj.boundary});
     })
