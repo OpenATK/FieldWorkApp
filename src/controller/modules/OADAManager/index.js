@@ -1,6 +1,8 @@
 
 import onDomainChanged from './sequences/onDomainChanged'
 import onFieldChanged from './sequences/onFieldChanged'
+import onFarmsChanged from './sequences/onFarmsChanged'
+import onSeasonsChanged from './sequences/onSeasonsChanged'
 
 export default {
   state: {
@@ -8,7 +10,9 @@ export default {
   },
   sequences: {
     onDomainChanged,
-    onFieldChanged
+    onFieldChanged,
+    onFarmsChanged,
+    onSeasonsChanged
   },
   modules: {
 

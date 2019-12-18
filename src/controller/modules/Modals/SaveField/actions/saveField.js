@@ -48,7 +48,7 @@ function saveChangesToOADA({props, get}) {
     {
       tree,
       data: props.changes,
-      path: `/bookmarks/fields/${props.editingField}`
+      path: `/bookmarks/fields/fields/${props.editingField}`
     },
     {
       tree,
@@ -59,19 +59,43 @@ function saveChangesToOADA({props, get}) {
   let currentConnection = get(state`OADAManager.currentConnection`)
   return {requests, connection_id: currentConnection};
 }
+function createFarm({get, props}) {
+  var farm = {
+    id: uuid(),
+    name: get(moduleState`name`) + '_Farm'
+  }
+  return {farm}
+}
 function createField({get, props}) {
   var field = {
     id: uuid(),
     name: get(moduleState`name`),
-    boundary: props.boundary
+    boundary: props.boundary,
+    farm: {
+      _id: _.get(props, 'responses.0.headers.location').substr(1)
+    }
   }
-  console.log('NewField', JSON.stringify(field, 2));
   return {field}
 }
 function addFieldToLocalData({store, props, get}) {
+  let farm = props.farm;
   let field = props.field;
+  store.set(state`localData.abc123.farms.${farm.id}`, farm); //TODO organization
   store.set(state`localData.abc123.fields.${field.id}`, field); //TODO organization
   store.set(state`localData.abc123.seasons.2019.fields.${field.id}`, {...field, operations: {}, year: '2019'}); //TODO year, organization
+}
+function addFarmToOADA({props, get}) {
+  let farm = props.farm;
+  //Add to OADA
+  let requests = [
+    {
+      tree,
+      data: farm,
+      path: `/bookmarks/fields/farms/${farm.id}`
+    }
+  ];
+  let currentConnection = get(state`OADAManager.currentConnection`)
+  return {requests, connection_id: currentConnection};
 }
 function addFieldToOADA({props, get}) {
   let field = props.field;
@@ -80,7 +104,7 @@ function addFieldToOADA({props, get}) {
     {
       tree,
       data: field,
-      path: `/bookmarks/fields/${field.id}`
+      path: `/bookmarks/fields/fields/${field.id}`
     },
     {
       tree,
@@ -110,10 +134,13 @@ export default [
       }
     ],
     false: [
-      createField,
+      createFarm,
       when(state`OADAManager.connected`),
       {
         true: [
+          addFarmToOADA,
+          oada.put,
+          createField,
           addFieldToOADA,
           oada.put
         ],

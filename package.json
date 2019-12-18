@@ -1,6 +1,6 @@
 {
   "name": "field-work",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "homepage": "https://OpenATK.github.io/FieldWorkApp",
   "dependencies": {
