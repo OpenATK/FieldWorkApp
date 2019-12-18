@@ -5,9 +5,25 @@ export default {
     fields: {
       _type: "application/vnd.oada.fields.1+json",
       _rev: 0,
-      "*": {
-        _type: "application/vnd.oada.field.1+json",
-        _rev: 0
+      fields: {
+        _type: "application/vnd.oada.fields.1+json",
+        _rev: 0,
+        "*": {
+          _type: "application/vnd.oada.field.1+json",
+          _rev: 0,
+          farm: {
+            _type: "application/vnd.oada.farm.1+json",
+            _rev: 0,
+          }
+        }
+      },
+      farms: {
+        _type: "application/vnd.oada.farms.1+json",
+        _rev: 0,
+        "*": {
+          _type: "application/vnd.oada.farm.1+json",
+          _rev: 0
+        }
       }
     },
     seasons: {

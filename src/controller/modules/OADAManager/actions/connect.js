@@ -33,23 +33,6 @@ function saveConnectionId({props, store}) {
   store.set(moduleState`currentConnection`, props.connection_id);
 }
 
-function createFieldsResource({}) {
-  let requests = [{
-    tree,
-    data: {},
-    path: '/bookmarks/fields'
-  }];
-  return {requests};
-}
-function createSeasonsResource({}) {
-  let requests = [{
-    tree,
-    data: {},
-    path: '/bookmarks/seasons'
-  }];
-  return {requests};
-}
-
 export default [
   getConnectionProperties,
   oada.connect,

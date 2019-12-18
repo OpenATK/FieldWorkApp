@@ -4,19 +4,25 @@ import tree from '../tree';
 function fetch({}) {
   let requests = [
     {
-      path: '/bookmarks/fields',
+      path: '/bookmarks/fields/fields',
       tree,
       watch: {
         signals: ['OADAManager.onFieldChanged']
       }
     },
     {
+      path: '/bookmarks/fields/farms',
+      tree,
+      watch: {
+        signals: ['OADAManager.onFarmsChanged']
+      }
+    },
+    {
       path: '/bookmarks/seasons',
       tree,
-      /*watch: {
-        signals: ['notes.mapOadaToRecords',]
-        // signals: ['notes.handleNotesWatch',]
-      },*/
+      watch: {
+        signals: ['OADAManager.onSeasonsChanged',]
+      },
     }
   ];
   return {requests};

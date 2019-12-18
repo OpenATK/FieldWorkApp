@@ -4,14 +4,25 @@ import { set, when } from 'cerebral/factories'
 
 import tree from '../tree';
 
-function createFieldsResource() {
+function createFieldsAndFarmsResource() {
   let requests = [{
     tree,
     data: {},
     path: '/bookmarks/fields'
+  },
+  {
+    tree,
+    data: {},
+    path: '/bookmarks/fields/fields'
+  },
+  {
+    tree,
+    data: {},
+    path: '/bookmarks/fields/farms'
   }];
   return {requests};
 }
+
 function createSeasonsResource() {
   let requests = [{
     tree,
@@ -26,7 +37,7 @@ export default [
   {
     true: [],
     false: [
-      createFieldsResource,
+      createFieldsAndFarmsResource,
       set(props`type`, undefined),
       oada.put,
     ]
