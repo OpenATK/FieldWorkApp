@@ -10,10 +10,16 @@ const _REDIRECT_LOCALHOST = 'http://localhost:8000/oauth2/redirect.html';
 const _REDIRECT_OPENATK = 'http://openatk.com/FieldWorkApp/oauth2/redirect.html';
 const _TOKEN = '';
 
-//const _CURRENT_METADATA = _LOCALHOST_VIP_METADATA;
-//const _CURRENT_REDIRECT = _REDIRECT_LOCALHOST;
-const _CURRENT_METADATA = _OPENATK_METADATA;
-const _CURRENT_REDIRECT = _REDIRECT_OPENATK;
+let _CURRENT_METADATA;
+let _CURRENT_REDIRECT;
+if (process.env.NODE_ENV !== 'production') {
+  console.log('NODE_ENV = ', process.env.NODE_ENV);
+  _CURRENT_METADATA = _LOCALHOST_VIP_METADATA;
+  _CURRENT_REDIRECT = _REDIRECT_LOCALHOST;
+} else {
+  _CURRENT_METADATA = _OPENATK_METADATA;
+  _CURRENT_REDIRECT = _REDIRECT_OPENATK;
+}
 
 function getConnectionProperties({get}) {
   var domain = get(props`domain`);
