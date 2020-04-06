@@ -1,23 +1,18 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import {TextInput, View} from 'react-native'
 
+import overmind from '../../../overmind'
 
-import { state, sequences } from 'cerebral'
-import { connect } from '@cerebral/react'
-
-export default connect(
-  {
-    onSaveField: sequences`TopBar.onSaveField`,
-    onCancelField: sequences`TopBar.onCancelField`
-  }, function DrawingToolbar({onSaveField, onCancelField}) {
-    return (
-      <Toolbar>
-        <View style={{flex: 1}} />
-        <Button color="inherit" onClick={() => onCancelField()}>Cancel</Button>
-        <Button color="inherit" onClick={() => onSaveField()}>Save</Button>
-      </Toolbar>
-    );
-  }
-)
+export default function DrawingToolbar() {
+  const { actions } = overmind();
+  const myActions = actions.view.TopBar;
+  return (
+    <Toolbar>
+      <View style={{flex: 1}} />
+      <Button color="inherit" onClick={() => myActions.onCancelField()}>Cancel</Button>
+      <Button color="inherit" onClick={() => myActions.onSaveField()}>Save</Button>
+    </Toolbar>
+  );
+}

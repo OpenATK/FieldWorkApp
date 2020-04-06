@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
-import { state } from 'cerebral'
-import { connect } from '@cerebral/react'
+import overmind from '../../../overmind'
 
-export default connect({
-  selectedOperation: state`TopBar.OperationDropdown.selectedOperation`,
-  acresStatus: state`acresStatus`,
-}, function AcresDone({acresStatus, selectedOperation}) {
+export default function AcresDone() {
+  const {state} = overmind();
+  const myState = state.view.FieldDetails;
+  const { acresStatus, selectedOperation } = myState;
+  
   if (selectedOperation == null) return null;
   return (
     <View style={{backgroundColor: '#5bb25f', paddingLeft: 7, paddingRight: 7, paddingTop: 5, paddingBottom: 5, borderRadius: 5}}>
@@ -16,4 +16,4 @@ export default connect({
       </Text>
     </View>
   );
-});
+}

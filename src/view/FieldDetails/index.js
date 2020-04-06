@@ -10,56 +10,61 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import _ from 'lodash';
 
-import { state, sequences } from 'cerebral'
-import { connect } from '@cerebral/react'
+import overmind from '../../overmind'
 
-export default connect(
-  {
-    open: state`FieldDetails.open`,
-    field: state`FieldDetails.field`,
-    onStatusChange: sequences`FieldDetails.onStatusChange`,
-    onEditFieldClick: sequences`FieldDetails.onEditFieldClick`,
-  }, function FieldDetails({open, field, onStatusChange, onEditFieldClick}) {
-    if (!Boolean(field)) {
-      open = false;
-      field = {};
-    }
-    return (
-      <Drawer anchor="bottom" open={open} variant="persistent">
-        <View style={{paddingBottom: 20}}>
-          <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 20}}>{field.name}</Text>
-              {<Text style={{marginLeft: 7, fontSize: 20}}>{`- ${Math.round(field.acres)} ac`}</Text>}
-            <IconButton onClick={()=>{onEditFieldClick()}}>
-              <EditIcon fontSize="small" />
-            </IconButton>
-          </View>
-          <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-            <FormControl component="fieldset">
-              <FormGroup aria-label="position" name="position" row>
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox color="primary" checked={(field.status == "planned") || false} onChange={()=>{onStatusChange({status: 'planned'})}} />}
-                  label="Planned"
-                  labelPlacement="bottom"
-                />
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox color="primary" checked={(field.status == "started") || false} onChange={()=>{onStatusChange({status: 'started'})}} />}
-                  label="Started"
-                  labelPlacement="bottom"
-                />
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox color="primary" checked={(field.status == "done") || false} onChange={()=>{onStatusChange({status: 'done'})}} />}
-                  label="Done"
-                  labelPlacement="bottom"
-                />
-              </FormGroup>
-            </FormControl>
-          </View>
-        </View>
-      </Drawer>
-    );
+export default function FieldDetails() {
+  const {state, actions} = overmind();
+  const myState = state.view.FieldDetails;
+  const myActions = actions.view.FieldDetails;
+
+  let { open, field } = myState;
+  const { onStatusChange, onEditFieldClick } = myActions;
+
+  if (!Boolean(field)) {
+    open = false;
+    field = {};
   }
-)
+  return (
+    <Drawer anchor="bottom" open={open} variant="persistent">
+      <View style={{paddingBottom: 20}}>
+        <View style={{flexDirection: 'column', alignItems: 'center'}}>
+          <View style={{justifyContent: 'left', flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+              <Text style={{fontWeight: 'bold', fontSize: 20}}>
+                {field.name}
+              </Text>
+              <Text style={{marginLeft: 7, fontSize: 18}}>
+                {`- ${Math.round(field.acres)} ac`}
+              </Text>
+          </View>
+          <Text style={{fontSize: 15, color: '#999', marginTop: 2, marginBottom: 7}}>
+            {'Bowman and Bowman'}
+          </Text>
+        </View>
+        <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+          <FormControl component="fieldset">
+            <FormGroup aria-label="position" name="position" row>
+              <FormControlLabel
+                value="bottom"
+                control={<Checkbox color="primary" checked={(field.status == "planned") || false} onChange={()=>{onStatusChange({status: 'planned'})}} />}
+                label="Planned"
+                labelPlacement="bottom"
+              />
+              <FormControlLabel
+                value="bottom"
+                control={<Checkbox color="primary" checked={(field.status == "started") || false} onChange={()=>{onStatusChange({status: 'started'})}} />}
+                label="Started"
+                labelPlacement="bottom"
+              />
+              <FormControlLabel
+                value="bottom"
+                control={<Checkbox color="primary" checked={(field.status == "done") || false} onChange={()=>{onStatusChange({status: 'done'})}} />}
+                label="Done"
+                labelPlacement="bottom"
+              />
+            </FormGroup>
+          </FormControl>
+        </View>
+      </View>
+    </Drawer>
+  );
+}

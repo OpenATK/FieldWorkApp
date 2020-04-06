@@ -1,0 +1,13 @@
+import _ from 'lodash'
+export default {
+  getSeasonField({state}, id) {
+    let fields = [];
+    if (_.get(state, `app.OADAManager.connected`) == true) {
+      let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
+      fields = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.fields`) //TODO year
+    } else {
+      fields = _.get(state, `app.localData.abc123.seasons.2019.fields`) //TODO year, organization
+    }
+    return fields[id];
+  }
+}

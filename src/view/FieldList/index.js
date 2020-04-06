@@ -11,7 +11,6 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Text, View } from 'react-native';
 
-
 export default function TemporaryDrawer() {
   return (
     <Drawer open={false} variant="persistent">

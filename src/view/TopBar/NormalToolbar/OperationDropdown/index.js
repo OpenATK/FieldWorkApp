@@ -2,9 +2,6 @@ import React from 'react'
 import { Dropdown, Input } from 'semantic-ui-react'
 import {View, Text} from 'react-native'
 
-import { state, sequences } from 'cerebral'
-import { connect } from '@cerebral/react'
-
 /*const tagOptions = [
   {
     text: 'Important',
@@ -13,21 +10,27 @@ import { connect } from '@cerebral/react'
   }
 ]*/
 
-export default connect({
-  selectedOperation: state`TopBar.OperationDropdown.selectedOperation`,
-  operations: state`TopBar.OperationDropdown.list`,
-  open: state`TopBar.OperationDropdown.open`,
-  search: state`TopBar.OperationDropdown.search`,
-  onAdd: sequences`TopBar.OperationDropdown.onAdd`,
-  onChange: sequences`TopBar.OperationDropdown.onChange`,
-  onOpenChange: sequences`TopBar.OperationDropdown.onOpenChange`,
-  onSearch: sequences`TopBar.OperationDropdown.onSearch`
-}, function OperationsDropdown({style, selectedOperation, operations, open, search, onAdd, onChange, onOpenChange, onSearch}) {
+import overmind from '../../../../overmind'
+
+export default function OperationsDropdown({style}) {
+  const { actions, state } = overmind();
+  const myActions = actions.view.TopBar.OperationDropdown;
+  const myState = state.view.TopBar.OperationDropdown;
+
+  const selectedOperation = myState.selectedOperation;
+  const operations = myState.list;
+  const open = myState.open;
+  const search = myState.search;
+  const onAdd = myActions.onAdd;
+  const onChange = myActions.onChange;
+  const onOpenChange = myActions.onOpenChange;
+  const onSearch = myActions.onSearch;
+
   return (
     <View style={style}>
       <View style={{flexDirection: 'row'}}>
         {
-          selectedOperation ?
+           selectedOperation ?
             <Dropdown
               open={open}
               onOpen={() => {onOpenChange({open: true})}}
@@ -52,6 +55,7 @@ export default connect({
           :
             <Dropdown
               onClick={() => {onAdd()}}
+              open={false}
               text={'Add New Operation'}
               icon='filter'
               floating
@@ -63,4 +67,4 @@ export default connect({
       </View>
     </View>
   )
-})
+}
