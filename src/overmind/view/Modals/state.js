@@ -1,6 +1,7 @@
+import config from '../../../config'
 export default {
   OADADomain: {
     open: false,
-    domain: ''
+    domain: config.oadaDomain
   }
 }

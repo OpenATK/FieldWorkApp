@@ -2,21 +2,23 @@
   "name": "field-work",
   "version": "0.1.4",
   "private": true,
-  "homepage": "https://OpenATK.github.io/FieldWorkApp",
+  "homepage": "",
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@mapbox/geojson-area": "^0.2.2",
     "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^4.0.1",
     "@oada/cerebral-module": "^3.0.4",
+    "@oada/oada-id-client": "^1.0.7",
     "babel-preset-react": "^6.24.1",
+    "classnames": "^2.2.6",
     "gh-pages": "^2.1.1",
     "leaflet": "^1.6.0",
     "native-base": "^2.12.1",
-    "classnames": "^2.2.6",
-    "react": "^16.13.1",
+    "oada-cache-overmind": "ssh://git@gitlab.com:qlevercompany/oada/oada-cache-overmind.git",
     "overmind": "^23.0.1",
     "overmind-react": "^24.0.1",
+    "react": "^16.13.1",
     "react-dom": "^16.8.6",
     "react-leaflet": "^2.6.3",
     "react-native-web": "^0.12.2",
@@ -25,11 +27,13 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "concurrently \"overmind-devtools\" \"react-scripts start\"",
+    "start": "concurrently \"overmind-devtools\" \"PORT=8000 react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build"
+    "predeploy": "json -I -f package.json -e 'this.homepage=\"https://OpenATK.github.io/FieldWorkApp\"'",
+    "deploy": "gh-pages -d build",
+    "postdeploy": "json -I -f package.json -e 'this.homepage=\"\"'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,10 +51,11 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^5.1.0",
-    "overmind-devtools": "^24.0.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2"
+    "@testing-library/user-event": "^7.1.2",
+    "concurrently": "^5.1.0",
+    "json": "^9.0.6",
+    "overmind-devtools": "^24.0.1"
   }
 }

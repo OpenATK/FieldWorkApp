@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import uuid from 'uuid/v1';
+import tree from '../../app/OADAManager/tree.js';
 
 export default {
   open({state}) {
@@ -10,9 +11,44 @@ export default {
     const myState = state.view.FieldDetails;
     myState.open = false;
   },
-  changeOADAFieldStatus() {
-    //// TODO: implement
-    throw 'TODO: implement oada'
+  changeOADAFieldStatus({state, actions}, status) {
+    const selectedFieldId = _.get(state, `view.Map.selectedField`);
+    const operation = _.get(state, `view.TopBar.OperationDropdown.selectedOperation`)
+
+    let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
+    let field = _.clone(_.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.operations.${operation.id}.fields.${selectedFieldId}`)) || {}; //TODO year, organization
+    let newStatus = status;
+    if (field.status == status) newStatus = null; //Unchecking
+    field.status = newStatus;
+    if (field.status == null) {
+      let requests = [
+        {  //Remove field to operation
+          type: 'application/vnd.oada.operation.1+json', //TODO oada.put should handle this
+          path: `/bookmarks/seasons/2019/operations/${operation.id}/fields/${selectedFieldId}` //TODO year
+        },
+        { //Remove operation to field in season's field's operation list
+          type: 'application/vnd.oada.field.1+json',
+          path: `/bookmarks/seasons/2019/fields/${selectedFieldId}/operations/${operation.id}` //TODO year
+        }
+      ];
+      return actions.app.oada.delete({requests, connection_id: currentConnection});
+    } else {
+      let requests = [
+        {  //Add field to operation
+          tree,
+          data: field,
+          type: 'application/vnd.oada.operation.1+json', //TODO oada.put should handle this
+          path: `/bookmarks/seasons/2019/operations/${operation.id}/fields/${selectedFieldId}` //TODO year
+        },
+        { //Add operation to field in season's field's operation list
+          tree,
+          data: {_id: operation._id},
+          type: 'application/vnd.oada.field.1+json',
+          path: `/bookmarks/seasons/2019/fields/${selectedFieldId}/operations/${operation.id}` //TODO year
+        }
+      ];
+      return actions.app.oada.put({requests, connection_id: currentConnection});
+    }
   },
   changeLocalFieldStatus({state}, status) {
     const myState = state.view.FieldDetails;

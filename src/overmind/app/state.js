@@ -36,6 +36,21 @@ export default {
     }
     return operationFields;
   },
+  currentOADA: ({}, state) => {
+    if (state.app.OADAManager.connected) {
+      const currentConnection = state.app.OADAManager.currentConnection;
+      if (!currentConnection) return;
+      return state.app.oada[currentConnection];
+    }
+  },
+  oadaOrgData: ({currentOADA}) => {
+    if (currentOADA) {
+      return currentOADA.bookmarks;
+    }
+  },
+  localOrgData: ({localData}) => {
+    return localData.abc123; //TODO organization
+  },
   localData: {
     organizations: {
       'abc123': {

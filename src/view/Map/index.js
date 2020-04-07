@@ -11,7 +11,7 @@ export default function Map() {
   const { actions } = overmind();
   const myActions = actions.view.Map;
   return (
-      <LeafletMap center={[40.630162850630974, 276.11022041179245]} zoom={13} onClick={(evt) => myActions.onMapClick({...evt.latlng})} zoomControl={false}>
+      <LeafletMap center={[41.448068, -84.972648]} zoom={13} onClick={(evt) => myActions.onMapClick({...evt.latlng})} zoomControl={false}>
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
