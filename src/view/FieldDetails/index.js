@@ -17,7 +17,7 @@ export default function FieldDetails() {
   const myState = state.view.FieldDetails;
   const myActions = actions.view.FieldDetails;
 
-  let { open, field } = myState;
+  let { open, field, farm } = myState;
   const { onStatusChange, onEditFieldClick } = myActions;
 
   if (!Boolean(field)) {
@@ -36,9 +36,12 @@ export default function FieldDetails() {
                 {`- ${Math.round(field.acres)} ac`}
               </Text>
           </View>
-          <Text style={{fontSize: 15, color: '#999', marginTop: 2, marginBottom: 7}}>
-            {'Bowman and Bowman'}
-          </Text>
+          {
+            farm == null ? null :
+            <Text style={{fontSize: 15, color: '#999', marginTop: 2, marginBottom: 7}}>
+              {farm.name}
+            </Text>
+          }
         </View>
         <View style={{justifyContent: 'center', flexDirection: 'row'}}>
           <FormControl component="fieldset">

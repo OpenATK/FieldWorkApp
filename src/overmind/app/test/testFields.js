@@ -1,6 +1,5 @@
 export default {
   "42f60b10-784c-11ea-8dfd-a3e960f56105": {
-    "id": "42f60b10-784c-11ea-8dfd-a3e960f56105",
     "name": "1004 G-N",
     "boundary": {
       "type": "Polygon",
@@ -82,12 +81,10 @@ export default {
       ]
     },
     "farm": {
-      "id": "42f08cd0-784c-11ea-8dfd-a3e960f56105",
-      "key": "42f08cd0-784c-11ea-8dfd-a3e960f56105"
+      "id": "42f08cd0-784c-11ea-8dfd-a3e960f56105"
     }
   },
   "7c0ce950-784c-11ea-bfa5-97fea4f9bfd9": {
-    "id": "7c0ce950-784c-11ea-bfa5-97fea4f9bfd9",
     "name": "1001 HO-N",
     "boundary": {
       "type": "Polygon",
@@ -145,12 +142,10 @@ export default {
       ]
     },
     "farm": {
-      "id": "7c06ced0-784c-11ea-bfa5-97fea4f9bfd9",
-      "key": "7c06ced0-784c-11ea-bfa5-97fea4f9bfd9"
+      "id": "42f08cd0-784c-11ea-8dfd-a3e960f56105",
     }
   },
   "8ab27420-784c-11ea-bfa5-97fea4f9bfd9": {
-    "id": "8ab27420-784c-11ea-bfa5-97fea4f9bfd9",
     "name": "1002 HO-S",
     "boundary": {
       "type": "Polygon",
@@ -200,8 +195,7 @@ export default {
       ]
     },
     "farm": {
-      "id": "8aad9220-784c-11ea-bfa5-97fea4f9bfd9",
-      "key": "8aad9220-784c-11ea-bfa5-97fea4f9bfd9"
+      "id": "42f08cd0-784c-11ea-8dfd-a3e960f56105"
     }
   }
 }

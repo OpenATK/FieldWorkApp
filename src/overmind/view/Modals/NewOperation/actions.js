@@ -4,8 +4,6 @@ import tree from "../../../app/OADAManager/tree";
 
 function createOperation(context, {name}) {
   var operation = {
-    id: uuid(),
-    year: '2019', //TODO year
     name,
     fields: {}
   }
@@ -13,21 +11,24 @@ function createOperation(context, {name}) {
 }
 
 function addOperationToLocalData({state}, {operation}) {
-  _.set(state, `app.localData.abc123.seasons.2019.operations.${operation.id}`, operation); //TODO year, organization
+  const id = uuid();
+  _.set(state, `app.localData.abc123.seasons.2019.operations.${id}`, operation); //TODO year, organization
+  return id;
 }
-async function addOperationToOADA({state}, {operation}) {
+async function addOperationToOADA({state, actions}, {operation}) {
   //Add to OADA
+  const id = uuid();
   let requests = [
     {
       tree,
       data: operation,
-      path: `/bookmarks/seasons/2019/operations/${operation.id}` //TODO year
+      path: `/bookmarks/seasons/2019/operations/${id}` //TODO year
     }
   ];
-  let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-  //return {requests, connection_id: currentConnection};
-  //TODO execute OADA request
-  throw 'TODO oada request'
+  const connection_id = _.get(state, `app.OADAManager.currentConnection`)
+  const ret = await actions.app.oada.put({requests, connection_id})
+  const _id = _.get(ret, 'responses.0.headers.content-location').substr(1); //Remove leading `/` from /resources/<uuid>
+  return {id, _id}
 }
 
 export default {
@@ -45,11 +46,12 @@ export default {
     const myState = state.view.Modals.NewOperation;
     const operation = createOperation(context, {name: myState.name})
     if (state.app.OADAManager.connected) {
-      addOperationToOADA(context, {operation});
+      const {id, _id} = await addOperationToOADA(context, {operation});
+      _.set(state, `view.TopBar.OperationDropdown.selected`, id)
     } else {
-      await addOperationToLocalData(context, {operation});
+      const id = await addOperationToLocalData(context, {operation});
+      _.set(state, `view.TopBar.OperationDropdown.selected`, id)
     }
-    _.set(state, `view.TopBar.OperationDropdown.selected`, operation.id)
   },
   onNameChange({state}, {name}) {
     const myState = state.view.Modals.NewOperation;

@@ -1,7 +1,3 @@
-## Tokens
-Tokens are in /src/controller/modules/OADAManager/actions/connect.js
-
-
 ## Libraries
 ### Polygon overlapping
 https://www.npmjs.com/package/polygon-clipping

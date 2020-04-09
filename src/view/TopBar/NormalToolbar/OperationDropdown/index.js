@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dropdown, Input } from 'semantic-ui-react'
 import {View, Text} from 'react-native'
-
+import _ from 'lodash'
 /*const tagOptions = [
   {
     text: 'Important',
@@ -46,7 +46,7 @@ export default function OperationsDropdown({style}) {
                 <Dropdown.Item style={{textAlign: 'center'}} text='Add New Operation' value='Add New Operation' onClick={(evt, data)=>{onAdd()}} />
                 <Input icon='search' iconPosition='left' className='search' style={{marginTop: 3}} value={search} onChange={(evt)=>{onSearch({search: evt.target.value})}} />
                 <Dropdown.Menu scrolling>
-                  {operations.map(option => (
+                  {_.map(operations, option => (
                     <Dropdown.Item key={option.value} {...option} onClick={(evt, data)=>{onChange({id: data.value})}} />
                   ))}
                 </Dropdown.Menu>

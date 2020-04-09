@@ -43,7 +43,7 @@ export default {
     const myState = state.app.OADAManager;
     const {currentConnection: connection_id} = myState;
     //Fetch field and seasons
-    let requests = [
+    let watchRequests = [
       {
         path: '/bookmarks/fields',
         tree,
@@ -59,37 +59,40 @@ export default {
         },
       }
     ];
-    await actions.app.oada.get({requests, connection_id})
-  },
-  async initBookmarks({state, actions}) {
-    const myState = state.app.OADAManager;
-    const {currentConnection: connection_id} = myState;
-    if (!state.app.oadaOrgData.fields) {
-        let requests = [{
-          tree,
-          data: {},
-          path: '/bookmarks/fields'
+    const ret = await actions.app.oada.get({requests: watchRequests, connection_id})
+    let rewatchRequests = [];
+    if (ret.responses[0].error) {
+      //On 404 create and rewatch
+      if (ret.responses[0].status != 404) throw ret.responses[0].error;
+      //Create fields and try to watch again
+      let requests = [{
+        tree,
+        data: {
+          fields: {},
+          farms: {}
         },
-        {
-          tree,
-          data: {},
-          path: '/bookmarks/fields/fields'
-        },
-        {
-          tree,
-          data: {},
-          path: '/bookmarks/fields/farms'
-        }];
-        await actions.app.oada.put({requests, connection_id})
+        path: '/bookmarks/fields'
+      }];
+      //Create
+      await actions.app.oada.put({requests, connection_id})
+      //Rewatch
+      rewatchRequests.push(watchRequests[0]);
     }
-    if (!state.app.oadaOrgData.seasons) {
+    if (ret.responses[1].error) {
+      //On 404 create and rewatch
+      if (ret.responses[1].status != 404) throw ret.responses[0].error;
+      //Create seasons and try to watch again
       let requests = [{
         tree,
         data: {},
         path: '/bookmarks/seasons'
       }];
+      //Create
       await actions.app.oada.put({requests, connection_id})
+      //Rewatch
+      rewatchRequests.push(watchRequests[1]);
     }
+    if (rewatchRequests.length > 0) await actions.app.oada.get({requests: rewatchRequests, connection_id})
   },
   initSeasonFields({state, actions}) {
     /*
@@ -103,6 +106,19 @@ export default {
       fieldsChanged.push({fieldId: key, name: obj.name, boundary: obj.boundary});
     })
     return myActions.changeSeasonFields(fieldsChanged);
+  },
+  initSeasonFarms({state, actions}) {
+    /*
+      Put changes from master farm list into season farms
+    */
+    const myActions = actions.app.OADAManager;
+    //Get master field list fields
+    var changed = [];
+    _.forEach(_.get(state, 'app.oadaOrgData.fields.farms'), (obj, key) => {
+      if (_.startsWith(key, '_')) return;
+      changed.push({id: key, name: obj.name});
+    })
+    return myActions.changeSeasonFarms(changed);
   },
   async changeSeasonFields({state, actions}, fieldsChanged) {
     /*
@@ -123,8 +139,6 @@ export default {
       }
       if (fieldChange.boundary) {
         if (seasonField == null || _.isEqual(seasonField.boundary, fieldChange.boundary) == false) {
-          console.log('Season Field Boundary:', JSON.stringify(seasonField.boundary, 2))
-          console.log('fieldChange Boundary:', JSON.stringify(fieldChange.boundary, 2))
           data.boundary = fieldChange.boundary;
         }
       }
@@ -142,15 +156,47 @@ export default {
     if (requests.length == 0) return;
     await actions.app.oada.put({requests, connection_id})
   },
+  async changeSeasonFarms({state, actions}, changed) {
+    /*
+      Apply any changes to season fields
+    */
+    const myState = state.app.OADAManager;
+    const {currentConnection: connection_id} = myState;
+    //See if they match season fields.
+    let requests = [];
+    let seasonFarms = state.app.seasonFarms;
+    _.forEach(changed, (change) => {
+      let data = {};
+      let seasonFarm = seasonFarms[change.id]
+      //Check if name changed
+      if (change.name) {
+        if (seasonFarm == null || seasonFarm.name != change.name) {
+          data.name = change.name;
+        }
+      }
+      if (_.isEmpty(data)) return;
+      data.id = change.id;
+      requests.push(
+        { //Change season's farms's name
+          tree,
+          data,
+          type: 'application/vnd.oada.farm.1+json',
+          path: `/bookmarks/seasons/2019/farms/${data.id}` //TODO year
+        }
+      )
+    })
+    if (requests.length == 0) return;
+    await actions.app.oada.put({requests, connection_id})
+  },
   async onDomainChanged({actions, state}, {domain}) {
     const myState = state.app.OADAManager;
     const myActions = actions.app.OADAManager;
     myState.domain = domain;
     const {error} = await myActions.connect({domain});
     if (!error) {
-      //await myActions.fetchAndWatch();
-      //await myActions.initBookmarks();
-      //await myActions.initSeasonFields();
+      await myActions.fetchAndWatch();
+      await myActions.initSeasonFarms();
+      await myActions.initSeasonFields();
     }
   },
   onFieldChanged({state, actions}, props) {
@@ -166,12 +212,15 @@ export default {
         fieldsChanged.push({fieldId: key, name: obj.name, boundary: obj.boundary});
       })
       return myActions.changeSeasonFields(fieldsChanged);
+    } else {
+      console.warn("onFieldChanged: Unsupported change type:", changeType)
     }
   },
   onFarmsChanged() {
-
+    //TODO If a farm in the master list changed, apply change to this years season farm
+    console.log('TODO: If a farm in the master list changed, apply change to this years season farm')
   },
-  onSeasonsChanged() {
+  onSeasonsChanged({state, actions}, props) {
 
   }
 }

@@ -20,13 +20,13 @@ export default function Fields() {
   if (_.keys(fields).length == 0) return null;
   return (
     <LayerGroup>
-      {_.map(fields, (field) =>
+      {_.map(fields, (field, id) =>
         <GeoJSON
           bubblingMouseEvents={false}
           style={field.style}
           data={field.boundary}
           key={uuid()} //Must be uuid to unmount/mount when field style or boundary changes
-          onClick={(evt) => {onFieldClick({id: field.id})}} />
+          onClick={(evt) => {onFieldClick({id})}} />
       )}
     </LayerGroup>
   );

@@ -1,9 +1,33 @@
 import testFields from './test/testFields';
+import testFarms from './test/testFarms';
 import _ from 'lodash';
+import geojsonArea from '@mapbox/geojson-area';
 
 export default {
   acresStatus: ({}, state) => {
-    var [planned, started, done, total] = [0, 0, 0, 100];
+    //Get id's of all fields in this operation
+    const operationFields = state.app.operationFields;
+    const seasonFields = state.app.seasonFields;
+    //Loop through each field, totaling acres.
+    let planned = 0;
+    let started = 0;
+    let done = 0;
+    _.forEach(operationFields, (fieldOperation, key) => {
+      if (fieldOperation == null) return;
+      //Get field
+      let field = seasonFields[key];
+      if (field == null) return;
+      //Compute area of field boundary
+      let area = geojsonArea.geometry(field.boundary) * 0.000247105 //Meters to acres;
+      if (fieldOperation.status == 'planned') {
+        planned += area;
+      } else if (fieldOperation.status == 'started') {
+        started += area;
+      } else if (fieldOperation.status == 'done') {
+        done += area;
+      }
+    });
+    let total = planned + started + done;
     return {
       planned: Math.round(planned),
       plannedPercentage: Math.round((planned / (total || 1)) * 100),
@@ -11,30 +35,44 @@ export default {
       startedPercentage: Math.round((started / (total || 1)) * 100),
       done: Math.round(done),
       donePercentage: Math.round((done / (total || 1)) * 100),
-    }
+    };
   },
-  seasonFields: ({}, state) => {
-    let fields = [];
+  seasonFarms: ({}, state) => {
+    let farms;
     if (_.get(state, `app.OADAManager.connected`) == true) {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-      fields = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.fields`) //TODO year
+      farms = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2019.farms`).omitBy((v, k) => { //TODO year
+        if (_.startsWith(k, '_')) return true;
+      }).value();
+    } else {
+      farms = _.get(state, `app.localData.abc123.seasons.2019.farms`) //TODO year, organization
+    }
+    return farms || {};
+  },
+  seasonFields: ({}, state) => {
+    let fields;
+    if (_.get(state, `app.OADAManager.connected`) == true) {
+      let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
+      fields = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2019.fields`).omitBy((v, k) => { //TODO year
+        if (_.startsWith(k, '_')) return true;
+      }).value();
     } else {
       fields = _.get(state, `app.localData.abc123.seasons.2019.fields`) //TODO year, organization
     }
-    return fields;
+    return fields || {};
   },
   operationFields: ({}, state) => {
-    let operation = _.get(state, 'view.TopBar.OperationDropdown.selectedOperation');
+    let operationId = _.get(state, 'view.TopBar.OperationDropdown.selectedOperationId');
     let operationFields = [];
-    if (operation != null && operation.id != null) {
+    if (operationId != null) {
       if (_.get(state, `app.OADAManager.connected`) == true) {
         let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-        operationFields = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.operations.${operation.id}.fields`) || []; //TODO year
+        operationFields = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.operations.${operationId}.fields`) || []; //TODO year
       } else {
-        operationFields = _.get(state, `app.localData.abc123.seasons.2019.operations.${operation.id}.fields`) || []; //TODO year, organization
+        operationFields = _.get(state, `app.localData.abc123.seasons.2019.operations.${operationId}.fields`) || []; //TODO year, organization
       }
     }
-    return operationFields;
+    return operationFields; // {<field-id>: {status: 'planned'}, ...}
   },
   currentOADA: ({}, state) => {
     if (state.app.OADAManager.connected) {
@@ -48,6 +86,13 @@ export default {
       return currentOADA.bookmarks;
     }
   },
+  oadaSeasonFarmsIdBy_id: ({oadaOrgData}, state) => {
+    return _.chain(oadaOrgData).get(`seasons.2019.farms`).mapValues((v, k) => {
+      return {_id: v._id, id: k};
+    }).mapKeys((v, k) => {
+      return v._id; //Key of oada id
+    }).value();  //{_id: <oada-res-id>, id: <path-id>}
+  },
   localOrgData: ({localData}) => {
     return localData.abc123; //TODO organization
   },
@@ -59,12 +104,17 @@ export default {
     },
     'abc123': {
       fields: {
-        /*'a': {
-          id: 'a',
-          name: 'Back 40',
-          boundary: '' //GEOJSON
-        }*/
-        ...testFields,
+        fields: {
+          /*'a': {
+            id: 'a',
+            name: 'Back 40',
+            boundary: '' //GEOJSON
+          }*/
+          ...testFields,
+        },
+        farms: {
+          ...testFarms,
+        }
       },
       seasons: {
         /*'2019': {
@@ -93,6 +143,9 @@ export default {
         '2019': {
           fields: {
             ...testFields,
+          },
+          farms: {
+            ...testFarms,
           },
           operations: {
             /*'<operation-uuid>': {

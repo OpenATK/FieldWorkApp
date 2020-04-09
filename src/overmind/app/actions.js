@@ -9,5 +9,15 @@ export default {
       fields = _.get(state, `app.localData.abc123.seasons.2019.fields`) //TODO year, organization
     }
     return fields[id];
+  },
+  getSeasonFarm({state}, id) {
+    let farms = [];
+    if (_.get(state, `app.OADAManager.connected`) == true) {
+      let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
+      farms = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.farms`) //TODO year
+    } else {
+      farms = _.get(state, `app.localData.abc123.seasons.2019.farms`) //TODO year, organization
+    }
+    return farms[id];
   }
 }

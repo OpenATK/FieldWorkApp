@@ -35,6 +35,7 @@ export default function MoreDropdown({style}) {
             <MenuItem onClick={()=>{myActions.onEditField()}}>Edit Field</MenuItem>
           }
           <MenuItem onClick={()=>{handleClose(); myActions.onConnect()}}>Connect to OADA</MenuItem>
+          {/*<MenuItem onClick={()=>{handleClose(); myActions.onResetCache()}}>Reset Cache</MenuItem>*/}
       </Menu>
     </View>
   );

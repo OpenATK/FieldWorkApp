@@ -11,6 +11,7 @@ import AcresStatus from './AcresStatus'
 import ModalSaveField from './Modals/SaveField';
 import ModalOADADomain from './Modals/OADADomain';
 import ModalNewOperation from './Modals/NewOperation';
+import ModalNewFarm from './Modals/NewFarm';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <ModalSaveField />
       <ModalOADADomain />
       <ModalNewOperation />
+      <ModalNewFarm />
     </div>
   );
 }

@@ -3,12 +3,12 @@ import { Map as LeafletMap, Marker, Popup, TileLayer, ZoomControl } from 'react-
 import './index.css'
 
 import overmind from '../../overmind'
-
+import _ from 'lodash'
 import BoundaryDrawing from './BoundaryDrawing'
 import Fields from './Fields'
 
 export default function Map() {
-  const { actions } = overmind();
+  const { actions, state } = overmind();
   const myActions = actions.view.Map;
   return (
       <LeafletMap center={[41.448068, -84.972648]} zoom={13} onClick={(evt) => myActions.onMapClick({...evt.latlng})} zoomControl={false}>

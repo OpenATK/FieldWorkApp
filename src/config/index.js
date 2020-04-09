@@ -6,10 +6,12 @@ const REDIRECT_OPENATK = 'http://openatk.com/FieldWorkApp/oauth2/redirect.html';
 
 let METADATA;
 let REDIRECT;
+let oadaDomain = '';
 if (process.env.NODE_ENV !== 'production') {
   console.log('NODE_ENV = ', process.env.NODE_ENV);
   METADATA = LOCALHOST_VIP_METADATA;
   REDIRECT = REDIRECT_LOCALHOST;
+  oadaDomain = 'https://localhost';
 } else {
   METADATA = OPENATK_METADATA;
   REDIRECT = REDIRECT_OPENATK;
@@ -26,5 +28,5 @@ export default {
   REDIRECT,
   METADATA,
   SCOPE,
-  oadaDomain: 'https://localhost'
+  oadaDomain
 }

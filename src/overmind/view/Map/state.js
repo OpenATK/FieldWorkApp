@@ -10,7 +10,7 @@ export default {
     const drawingBoundary = _.get(state, `view.Map.BoundaryDrawing.drawing`)
     const operation = _.get(state, `view.TopBar.OperationDropdown.selectedOperation`)
     const fieldsToRender = _.get(state, `app.seasonFields`);
-    return _.map(fieldsToRender, (field, id) => {
+    return _.mapValues(fieldsToRender, (field, id) => {
       if (_.startsWith(id, '_')) return false;
       if (editingField == id) return false;
       var styledField = _.clone(field);
@@ -19,7 +19,7 @@ export default {
       //Fill based on status of current operation
       if (operation) {
         var color = "white"
-        if (operation.fields[id]) {
+        if (operation.fields && operation.fields[id]) {
           if (operation.fields[id].status == 'planned') color = 'red'
           if (operation.fields[id].status == 'started') color = 'orange'
           if (operation.fields[id].status == 'done') color = 'green'

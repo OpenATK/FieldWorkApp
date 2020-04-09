@@ -1,11 +1,13 @@
 export default {
-  onAdd({actions}) {
+  onAdd({state, actions}) {
+    const myState = state.view.TopBar.OperationDropdown;
+    myState.open = false;
     return actions.view.Modals.NewOperation.open()
   },
   onChange({state}, {id}) {
     const myState = state.view.TopBar.OperationDropdown;
     myState.selected = id;
-    myState.open = true;
+    myState.open = false;
   },
   onOpenChange({state}, {open}) {
     const myState = state.view.TopBar.OperationDropdown;

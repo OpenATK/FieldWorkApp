@@ -43,6 +43,14 @@ export default {
             }
           }
         },
+        farms: {
+          _type: "application/vnd.oada.farms.1+json",
+          _rev: 0,
+          "*": {
+            _type: "application/vnd.oada.farm.1+json",
+            _rev: 0
+          }
+        },
         operations: {
           _type: "application/vnd.oada.operations.1+json",
           _rev: 0,
