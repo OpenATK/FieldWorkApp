@@ -7,7 +7,7 @@ import * as app from './app'
 
 export const config = namespaced({
   view,
-  app
+  app,
 })
 
 export default createHook()

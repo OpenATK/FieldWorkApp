@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native'
-import { Button, Modal, Input, Dropdown, Icon } from 'semantic-ui-react'
+import { Form, Button, Modal, Input, Dropdown, Icon } from 'semantic-ui-react'
 
 import overmind from '../../overmind'
 
@@ -27,7 +27,9 @@ export default function SaveField() {
       <Modal.Content>
         <View style={{flexDirection: 'column', zIndex: 1}}>
           <Text style={{marginBottom: 7}}>Field Name:</Text>
-          <Input placeholder='Back 40' value={name} onChange={(evt) => {onNameChange({name: evt.target.value})}} />
+          <Form onSubmit={() => onSave()}>
+            <Input autoFocus placeholder='Back 40' value={name} onChange={(evt) => {onNameChange({name: evt.target.value})}} />
+          </Form>
           <Text style={{marginBottom: 7, marginTop: 15}}>Farm:</Text>
           <Dropdown
             trigger={

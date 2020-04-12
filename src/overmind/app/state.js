@@ -18,6 +18,7 @@ export default {
       let field = seasonFields[key];
       if (field == null) return;
       //Compute area of field boundary
+      console.log('field.boundary', field.boundary);
       let area = geojsonArea.geometry(field.boundary) * 0.000247105 //Meters to acres;
       if (fieldOperation.status == 'planned') {
         planned += area;

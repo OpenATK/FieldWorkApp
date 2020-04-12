@@ -4,7 +4,7 @@
   - Delete
 - Prompt 'Add New Operation' when selecting a field when no operations are entered.
 - Clearing cache
-
+- Need to handle master field deletion by winfield
 --------
 
 - Saving local data

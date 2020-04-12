@@ -6,24 +6,24 @@ import { browser as oadaIdClient } from '@oada/oada-id-client/index.js'
 const getAccessToken = Promise.promisify(oadaIdClient.getAccessToken)
 
 export default {
-  async getToken({}, domain) {
+  async getToken({state}, domain) {
     /*
       Get token from local storage or request one
     */
-    //TODO get token from local storage
+    const myState = state.app.OADAManager;
+    if (myState.token) return myState.token;
     let res = await getAccessToken(domain.replace(/^https?:\/\//, ''), {
       metadata: config.METADATA,
       scope: config.SCOPE,
       redirect: config.REDIRECT
     })
-    //TODO save token to local storage
     return res.access_token;
   },
-  async connect({actions, state, effects}, {domain}) {
+  async connect({actions, state, effects}, {domain, token}) {
     const myState = state.app.OADAManager;
     const myActions = actions.app.OADAManager;
-
-    const token = await myActions.getToken(domain);
+    if (token) myState.token = token;
+    token = await myActions.getToken(domain);
     return actions.app.oada.connect({
       token,
       domain: domain,
@@ -38,6 +38,19 @@ export default {
       }
       return response;
     })
+  },
+  async logout({actions, state}) {
+    const myState = state.app.OADAManager;
+    const {currentConnection: connection_id} = myState;
+    await actions.app.oada.disconnect({connection_id})
+  },
+  async getUserInfo({actions, state}) {
+    const myState = state.app.OADAManager;
+    const {currentConnection: connection_id} = myState;
+    let requests = [{
+      path: '/users/me',
+    }];
+    await actions.app.oada.get({requests, connection_id})
   },
   async fetchAndWatch({actions, state}) {
     const myState = state.app.OADAManager;
@@ -61,6 +74,7 @@ export default {
     ];
     const ret = await actions.app.oada.get({requests: watchRequests, connection_id})
     let rewatchRequests = [];
+    console.log('ret', ret)
     if (ret.responses[0].error) {
       //On 404 create and rewatch
       if (ret.responses[0].status != 404) throw ret.responses[0].error;
@@ -188,12 +202,13 @@ export default {
     if (requests.length == 0) return;
     await actions.app.oada.put({requests, connection_id})
   },
-  async onDomainChanged({actions, state}, {domain}) {
+  async login({actions, state}, {domain, token}) {
     const myState = state.app.OADAManager;
     const myActions = actions.app.OADAManager;
     myState.domain = domain;
-    const {error} = await myActions.connect({domain});
+    const {error} = await myActions.connect({domain, token});
     if (!error) {
+      await myActions.getUserInfo();
       await myActions.fetchAndWatch();
       await myActions.initSeasonFarms();
       await myActions.initSeasonFields();

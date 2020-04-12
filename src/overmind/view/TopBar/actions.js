@@ -12,9 +12,6 @@ export default {
     state.view.Map.editingField = null; //Stop editing if we were
     actions.view.Map.BoundaryDrawing.onStopDrawing();
   },
-  onConnect({actions}) {
-    actions.view.Modals.OADADomain.open();
-  },
   onEditField({actions, state}) {
     const currentField = state.view.FieldDetails.field;
     //Hide the current boundary
@@ -33,5 +30,8 @@ export default {
     await actions.app.oada.resetCache();
     //Refresh the page
     //location.reload();
+  },
+  async onLogout({actions}) {
+    await actions.view.Login.logout()
   }
 }
