@@ -1,10 +1,14 @@
-- Main page bring to OADA login
+- If field is edited, deleted, or added in master list add on season fields
+- If farm is edited, deleted, or added in master list add on season fields
+- Prompt 'Add New Operation' when selecting a field when no operations are entered.
+- Clearing cache
+- Need a differnt conetnt type for a field operation, vs normal operation
+- Operation copy
 - Managing farms
   - Edit
   - Delete
-- Prompt 'Add New Operation' when selecting a field when no operations are entered.
-- Clearing cache
 - Need to handle master field deletion by winfield
+- Add a 'season field' and 'season farm' type
 --------
 
 - Saving local data

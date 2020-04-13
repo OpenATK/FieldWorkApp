@@ -18,7 +18,6 @@ export default {
       let field = seasonFields[key];
       if (field == null) return;
       //Compute area of field boundary
-      console.log('field.boundary', field.boundary);
       let area = geojsonArea.geometry(field.boundary) * 0.000247105 //Meters to acres;
       if (fieldOperation.status == 'planned') {
         planned += area;
@@ -44,6 +43,7 @@ export default {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
       farms = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2019.farms`).omitBy((v, k) => { //TODO year
         if (_.startsWith(k, '_')) return true;
+        if (v == null) return true;
       }).value();
     } else {
       farms = _.get(state, `app.localData.abc123.seasons.2019.farms`) //TODO year, organization
@@ -56,6 +56,7 @@ export default {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
       fields = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2019.fields`).omitBy((v, k) => { //TODO year
         if (_.startsWith(k, '_')) return true;
+        if (v == null) return true;
       }).value();
     } else {
       fields = _.get(state, `app.localData.abc123.seasons.2019.fields`) //TODO year, organization

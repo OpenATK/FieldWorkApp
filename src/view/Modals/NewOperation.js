@@ -18,8 +18,8 @@ export default function NewOperation() {
       <Modal.Content>
         <Text>Name:</Text>
         <View style={{flexDirection: 'row'}}>
-          <Form onSubmit={onSave}>
-            <Input autoFocus style={{flex: 1, marginTop: 7}} placeholder='Corn Planting' value={name} onChange={(evt) => {onNameChange({name: evt.target.value})}} />
+          <Form style={{flex: 1}} onSubmit={onSave}>
+            <Input autoFocus style={{width: '100%', marginTop: 7}} placeholder='Corn Planting' value={name} onChange={(evt) => {onNameChange({name: evt.target.value})}} />
           </Form>
         </View>
       </Modal.Content>

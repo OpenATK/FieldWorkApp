@@ -74,7 +74,6 @@ export default {
     ];
     const ret = await actions.app.oada.get({requests: watchRequests, connection_id})
     let rewatchRequests = [];
-    console.log('ret', ret)
     if (ret.responses[0].error) {
       //On 404 create and rewatch
       if (ret.responses[0].status != 404) throw ret.responses[0].error;
@@ -138,6 +137,7 @@ export default {
     /*
       Apply any changes to season fields
     */
+    console.log('change season fields', fieldsChanged);
     const myState = state.app.OADAManager;
     const {currentConnection: connection_id} = myState;
     //See if they match season fields.
@@ -172,8 +172,9 @@ export default {
   },
   async changeSeasonFarms({state, actions}, changed) {
     /*
-      Apply any changes to season fields
+      Apply any changes to season farms
     */
+    console.log('change season farms', changed);
     const myState = state.app.OADAManager;
     const {currentConnection: connection_id} = myState;
     //See if they match season fields.
@@ -202,6 +203,48 @@ export default {
     if (requests.length == 0) return;
     await actions.app.oada.put({requests, connection_id})
   },
+  async deleteSeasonFields({state, actions}, deleted) {
+    console.log('delete season fields', deleted);
+    const myState = state.app.OADAManager;
+    const {currentConnection: connection_id} = myState;
+    //See if they match season fields.
+    let requests = [];
+    let seasonFields = state.app.seasonFields;
+    _.forEach(deleted, (fieldId) => {
+      let seasonField = seasonFields[fieldId]
+      if (!seasonField) return;
+      requests.push(
+        { //Change season's farms's name
+          tree,
+          type: 'application/vnd.oada.field.1+json',
+          path: `/bookmarks/seasons/2019/fields/${fieldId}` //TODO year
+        }
+      )
+    })
+    if (requests.length == 0) return;
+    await actions.app.oada.delete({requests, connection_id})
+  },
+  async deleteSeasonFarms({state, actions}, deleted) {
+    console.log('delete season farms', deleted);
+    const myState = state.app.OADAManager;
+    const {currentConnection: connection_id} = myState;
+    //See if they match season fields.
+    let requests = [];
+    let seasonFarms = state.app.seasonFarms;
+    _.forEach(deleted, (farmId) => {
+      let seasonFarm = seasonFarms[farmId]
+      if (!seasonFarm) return;
+      requests.push(
+        { //Change season's farms's name
+          tree,
+          type: 'application/vnd.oada.farm.1+json',
+          path: `/bookmarks/seasons/2019/farms/${farmId}` //TODO year
+        }
+      )
+    })
+    if (requests.length == 0) return;
+    await actions.app.oada.delete({requests, connection_id})
+  },
   async login({actions, state}, {domain, token}) {
     const myState = state.app.OADAManager;
     const myActions = actions.app.OADAManager;
@@ -214,26 +257,42 @@ export default {
       await myActions.initSeasonFields();
     }
   },
-  onFieldChanged({state, actions}, props) {
+  async onFieldChanged({state, actions}, props) {
     /*
-      If a field in the master list changed, apply change to this years season fields
+      If a farm/field in the master list changed, apply change to this years season fields
     */
+    console.log('onFieldChanged', props);
     const myActions = actions.app.OADAManager;
     let changeType = _.get(props, 'response.change.type');
-    if (changeType == 'merge') {
-      var fieldsChanged = [];
+    if (changeType == 'merge' || changeType == 'delete') {
+      let deleted = false;
+      const wasDelete = _.get(props, 'response.change.wasDelete');
+      if (changeType == 'deleted' || wasDelete) deleted = true;
+      let fieldsChanged = [];
+      let fieldsDeleted = [];
       _.forEach(_.get(props, 'response.change.body.data.fields'), (obj, key) => {
-        if (_.startsWith(key, '_')) return;
-        fieldsChanged.push({fieldId: key, name: obj.name, boundary: obj.boundary});
+        if (deleted) {
+          fieldsDeleted.push(key);
+        } else {
+          fieldsChanged.push({fieldId: key, deleted, name: _.get(obj, 'name'), boundary: _.get(obj, 'boundary')});
+        }
       })
-      return myActions.changeSeasonFields(fieldsChanged);
+      if (fieldsDeleted.length > 0) myActions.deleteSeasonFields(fieldsDeleted);
+      if (fieldsChanged.length > 0) myActions.changeSeasonFields(fieldsChanged);
+      let farmsChanged = [];
+      let farmsDeleted = [];
+      _.forEach(_.get(props, 'response.change.body.data.farms'), (obj, key) => {
+        if (deleted) {
+          farmsDeleted.push(key);
+        } else {
+          farmsChanged.push({farmId: key, deleted, name: _.get(obj, 'name')});
+        }
+      })
+      if (farmsDeleted.length > 0) myActions.deleteSeasonFarms(farmsDeleted);
+      if (farmsChanged.length > 0) myActions.changeSeasonFarms(farmsChanged);
     } else {
       console.warn("onFieldChanged: Unsupported change type:", changeType)
     }
-  },
-  onFarmsChanged() {
-    //TODO If a farm in the master list changed, apply change to this years season farm
-    console.log('TODO: If a farm in the master list changed, apply change to this years season farm')
   },
   onSeasonsChanged({state, actions}, props) {
 
