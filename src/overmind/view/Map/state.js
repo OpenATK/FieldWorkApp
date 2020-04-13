@@ -10,9 +10,8 @@ export default {
     const drawingBoundary = _.get(state, `view.Map.BoundaryDrawing.drawing`)
     const operation = _.get(state, `view.TopBar.OperationDropdown.selectedOperation`)
     const fieldsToRender = _.get(state, `app.seasonFields`);
-    return _.mapValues(fieldsToRender, (field, id) => {
-      if (_.startsWith(id, '_')) return false;
-      if (editingField == id) return false;
+    return _.chain(fieldsToRender).mapValues((field, id) => {
+      if (editingField == id) return null; //Don't show this field.
       var styledField = _.clone(field);
       //Add any styles
       if (fieldStyles[id] != null) styledField.style = fieldStyles[id];
@@ -27,6 +26,8 @@ export default {
         styledField.style = _.merge({}, styledField.style, {fillColor: color, color})
       }
       return styledField;
-    })
+    }).omitBy((v, k) => {
+      if (v == null) return true;
+    }).value();
   }
 }

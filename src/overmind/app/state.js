@@ -43,6 +43,7 @@ export default {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
       farms = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2019.farms`).omitBy((v, k) => { //TODO year
         if (_.startsWith(k, '_')) return true;
+        if (v == null) return true;
       }).value();
     } else {
       farms = _.get(state, `app.localData.abc123.seasons.2019.farms`) //TODO year, organization
@@ -55,6 +56,7 @@ export default {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
       fields = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2019.fields`).omitBy((v, k) => { //TODO year
         if (_.startsWith(k, '_')) return true;
+        if (v == null) return true;
       }).value();
     } else {
       fields = _.get(state, `app.localData.abc123.seasons.2019.fields`) //TODO year, organization

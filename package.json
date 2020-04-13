@@ -1,14 +1,13 @@
 {
   "name": "field-work",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "homepage": "",
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@mapbox/geojson-area": "^0.2.2",
     "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^4.0.1",
-    "@oada/cerebral-module": "^3.0.4",
-    "@oada/oada-cache-overmind": "https://github.com/OADA/oada-cache-overmind.git#f11b4c6",
+    "@oada/oada-cache-overmind": "https://github.com/OADA/oada-cache-overmind.git#3a9dd21",
     "@oada/oada-id-client": "^1.0.7",
     "babel-preset-react": "^6.24.1",
     "classnames": "^2.2.6",
@@ -26,11 +25,11 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "concurrently \"overmind-devtools\" \"PORT=8000 react-scripts start\"",
+    "start": "concurrently \"overmind-devtools\" \"cross-env PORT=8000 react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "json -I -f package.json -e 'this.homepage=\"https://OpenATK.github.io/FieldWorkApp\"'",
+    "predeploy": "json -I -f package.json -e 'this.homepage=\"https://OpenATK.github.io/FieldWorkApp\"' && react-scripts build",
     "deploy": "gh-pages -o github -d build",
     "postdeploy": "json -I -f package.json -e 'this.homepage=\"\"'"
   },
@@ -54,6 +53,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "concurrently": "^5.1.0",
+    "cross-env": "^7.0.2",
     "json": "^9.0.6",
     "overmind-devtools": "^24.0.1"
   }

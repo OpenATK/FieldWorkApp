@@ -36,7 +36,7 @@ export default function OperationsDropdown({style}) {
               onOpen={() => {onOpenChange({open: true})}}
               onBlur={() => {onOpenChange({open: false})}}
               text={selectedOperation.name}
-              icon='filter'
+              icon='cog'
               floating
               labeled
               button
@@ -57,7 +57,7 @@ export default function OperationsDropdown({style}) {
               onClick={() => {onAdd()}}
               open={false}
               text={'Add New Operation'}
-              icon='filter'
+              icon='cog'
               floating
               labeled
               button
