@@ -159,7 +159,7 @@ export default {
         }
       }
       if (fieldChange.farm) {
-        //Find season farm id from farm id
+        //Find new season farm id from farm id
         const farmId = _.get(fieldChange, 'farm._id');
         if (farmId) {
           const seasonFarmId = _.get(state, `app.oadaSeasonFarms_idByFarm_id.${farmId}.seasonFarm_id`)
@@ -169,7 +169,6 @@ export default {
         }
       }
       if (_.isEmpty(data)) return;
-      data.id = fieldChange.fieldId;
       requests.push(
         { //Change season's field's name, boundary
           tree,
@@ -202,7 +201,6 @@ export default {
         }
       }
       if (_.isEmpty(data)) return;
-      data.id = change.farmId;
       requests.push(
         { //Change season's farms's name
           tree,
