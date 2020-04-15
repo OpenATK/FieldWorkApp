@@ -18,7 +18,9 @@ export default {
     state.view.Map.editingField = state.view.FieldDetails.fieldId;
     //Convert to drawing boundary: {<rand-id>: [lat, lng], ...}
     let boundary = {};
-    _.forEach(_.get(currentField, 'boundary.coordinates.0') || [], (coors) => { //TODO will not work with holes in fields etc
+    let coors = _.get(currentField, 'boundary.coordinates.0');
+    if (coors.length > 0) coors.pop();
+    _.forEach(coors || [], (coors) => { //TODO will not work with holes in fields etc
       boundary[uuid()] = [coors[1], coors[0]];
     });
     //Start drawing
