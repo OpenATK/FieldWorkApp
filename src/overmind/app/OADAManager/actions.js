@@ -159,8 +159,13 @@ export default {
         }
       }
       if (fieldChange.farm) {
-        if (seasonField == null || seasonField.farm == null || seasonField.farm._id == null || (_.get(fieldChange, 'farm._id') != null && seasonField.farm._id != fieldChange.farm._id)) {
-          data.farm = fieldChange.farm;
+        //Find season farm id from farm id
+        const farmId = _.get(fieldChange, 'farm._id');
+        if (farmId) {
+          const seasonFarmId = _.get(state, `app.oadaSeasonFarms_idByFarm_id.${farmId}.seasonFarm_id`)
+          if (seasonField == null || seasonField.farm == null || seasonField.farm._id == null || (seasonFarmId != null && seasonField.farm._id != seasonFarmId)) {
+            data.farm = _.merge({}, data.farm, {_id: seasonFarmId});
+          }
         }
       }
       if (_.isEmpty(data)) return;
