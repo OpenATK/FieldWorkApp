@@ -47,9 +47,10 @@ export default {
   },
   async zoomBounds({state}, props) {
     const myState = _.get(state, 'view.Map');
-    const fields = _.map(myState.fields, (f) => {
+    const fields = _.compact(_.map(myState.fields, (f) => {
+      if (!f.boundary) return null; //Don't include fields without boundaries
       return {geo: f.boundary}
-    });
+    }));
     const featureCollection = GeoJSON.parse(fields, {GeoJSON: 'geo'})
     const bounds = BBox(featureCollection)
     myState.bounds = [[bounds[1], bounds[0]], [bounds[3], bounds[2]]];

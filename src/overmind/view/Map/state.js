@@ -4,6 +4,16 @@ export default {
   fieldStyles: {},
   selectedField: null,
   editingField: null,
+  bounds: [
+    [
+      41.44053877385792,
+      -84.97886180877687
+    ],
+    [
+      41.46330393671208,
+      -84.96770381927492
+    ]
+  ],
   fields: ({}, state) => {
     const fieldStyles = _.get(state, `view.Map.fieldStyles`)
     const editingField = _.get(state, `view.Map.editingField`)

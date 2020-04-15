@@ -6,7 +6,11 @@ import tree from "../../../app/OADAManager/tree";
 function convertToGEOJSON(points) {
   var boundary = {
     type: "Polygon",
-    "coordinates": [_.map(points, (p) => {return [p[1], p[0]]})] //Flip lat/lng and add array around
+    coordinates: [_.map(points, (p) => {return [p[1], p[0]]})] //Flip lat/lng and add array around
+  }
+  //Add first point again
+  if (boundary.coordinates && boundary.coordinates[0] && boundary.coordinates[0].length > 0) {
+    boundary.coordinates[0].push(boundary.coordinates[0][0]);
   }
   return boundary;
 }

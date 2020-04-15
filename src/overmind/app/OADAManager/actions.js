@@ -43,6 +43,7 @@ export default {
   async logout({actions, state}) {
     const myState = state.app.OADAManager;
     const {currentConnection: connection_id} = myState;
+    myState.token = null;
     await actions.app.oada.disconnect({connection_id})
   },
   async getUserInfo({actions, state}) {
@@ -117,7 +118,7 @@ export default {
     var fieldsChanged = [];
     _.forEach(_.get(state, 'app.oadaOrgData.fields.fields'), (obj, key) => {
       if (_.startsWith(key, '_')) return;
-      fieldsChanged.push({fieldId: key, name: obj.name, boundary: obj.boundary});
+      fieldsChanged.push({fieldId: key, name: obj.name, boundary: obj.boundary, farm: obj.farm});
     })
     return myActions.changeSeasonFields(fieldsChanged);
   },
@@ -144,6 +145,7 @@ export default {
     let requests = [];
     let theSeasonFields = state.app.seasonFields;
     _.forEach(fieldsChanged, (fieldChange) => {
+      if (fieldChange.fieldId == null) return;
       let data = {};
       let seasonField = theSeasonFields[fieldChange.fieldId]
       if (fieldChange.name) {
@@ -154,6 +156,11 @@ export default {
       if (fieldChange.boundary) {
         if (seasonField == null || _.isEqual(seasonField.boundary, fieldChange.boundary) == false) {
           data.boundary = fieldChange.boundary;
+        }
+      }
+      if (fieldChange.farm) {
+        if (seasonField == null || seasonField.farm == null || seasonField.farm._id == null || (_.get(fieldChange, 'farm._id') != null && seasonField.farm._id != fieldChange.farm._id)) {
+          data.farm = fieldChange.farm;
         }
       }
       if (_.isEmpty(data)) return;
@@ -180,6 +187,7 @@ export default {
     let requests = [];
     let seasonFarms = state.app.seasonFarms;
     _.forEach(changed, (change) => {
+      if (change.farmId == null) return;
       let data = {};
       let seasonFarm = seasonFarms[change.farmId]
       //Check if name changed
