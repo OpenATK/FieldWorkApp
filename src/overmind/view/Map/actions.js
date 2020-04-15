@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
+import BBox from '@turf/bbox';
+import GeoJSON from 'geojson';
 
 export default {
   styleField: {
@@ -42,5 +44,14 @@ export default {
     myActions.unselectField()
     //Pass click to boundary drawing
     myActions.BoundaryDrawing.onMapClick(props)
+  },
+  async zoomBounds({state}, props) {
+    const myState = _.get(state, 'view.Map');
+    const fields = _.map(myState.fields, (f) => {
+      return {geo: f.boundary}
+    });
+    const featureCollection = GeoJSON.parse(fields, {GeoJSON: 'geo'})
+    const bounds = BBox(featureCollection)
+    myState.bounds = [[bounds[1], bounds[0]], [bounds[3], bounds[2]]];
   }
 }

@@ -27,7 +27,8 @@ export default {
     return actions.app.oada.connect({
       token,
       domain: domain,
-      options: config.OPTIONS
+      options: config.OPTIONS,
+      cache: false
     }).then((response) => {
       if (!response.error) {
         myState.currentConnection = response.connectionId;
@@ -129,7 +130,7 @@ export default {
     var changed = [];
     _.forEach(_.get(state, 'app.oadaOrgData.fields.farms'), (obj, key) => {
       if (_.startsWith(key, '_')) return;
-      changed.push({id: key, name: obj.name});
+      changed.push({farmId: key, name: obj.name});
     })
     return myActions.changeSeasonFarms(changed);
   },
@@ -137,7 +138,6 @@ export default {
     /*
       Apply any changes to season fields
     */
-    console.log('change season fields', fieldsChanged);
     const myState = state.app.OADAManager;
     const {currentConnection: connection_id} = myState;
     //See if they match season fields.
@@ -174,7 +174,6 @@ export default {
     /*
       Apply any changes to season farms
     */
-    console.log('change season farms', changed);
     const myState = state.app.OADAManager;
     const {currentConnection: connection_id} = myState;
     //See if they match season fields.
@@ -182,7 +181,7 @@ export default {
     let seasonFarms = state.app.seasonFarms;
     _.forEach(changed, (change) => {
       let data = {};
-      let seasonFarm = seasonFarms[change.id]
+      let seasonFarm = seasonFarms[change.farmId]
       //Check if name changed
       if (change.name) {
         if (seasonFarm == null || seasonFarm.name != change.name) {
@@ -190,7 +189,7 @@ export default {
         }
       }
       if (_.isEmpty(data)) return;
-      data.id = change.id;
+      data.id = change.farmId;
       requests.push(
         { //Change season's farms's name
           tree,
@@ -255,6 +254,7 @@ export default {
       await myActions.fetchAndWatch();
       await myActions.initSeasonFarms();
       await myActions.initSeasonFields();
+      await actions.view.Map.zoomBounds();
     }
   },
   async onFieldChanged({state, actions}, props) {
@@ -271,6 +271,10 @@ export default {
       let fieldsChanged = [];
       let fieldsDeleted = [];
       _.forEach(_.get(props, 'response.change.body.data.fields'), (obj, key) => {
+        if (key == 'undefined') {
+          console.log('WARNING: Received a bad field change from OADA', props);
+          return; //TODO temp fix for oada changes being wrong
+        }
         if (deleted) {
           fieldsDeleted.push(key);
         } else {
@@ -282,6 +286,10 @@ export default {
       let farmsChanged = [];
       let farmsDeleted = [];
       _.forEach(_.get(props, 'response.change.body.data.farms'), (obj, key) => {
+        if (key == 'undefined') {
+          console.log('WARNING: Received a bad farm change from OADA', props);
+          return; //TODO temp fix for oada changes being wrong
+        }
         if (deleted) {
           farmsDeleted.push(key);
         } else {

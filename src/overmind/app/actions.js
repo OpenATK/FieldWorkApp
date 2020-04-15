@@ -19,5 +19,8 @@ export default {
       farms = _.get(state, `app.localData.abc123.seasons.2019.farms`) //TODO year, organization
     }
     return farms[id];
+  },
+  onInitialize({state, actions}) {
+    actions.view.Map.zoomBounds();
   }
 }

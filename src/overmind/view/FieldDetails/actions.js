@@ -80,5 +80,8 @@ export default {
     } else {
       myActions.changeLocalFieldStatus(status)
     }
+  },
+  onAddNewOperationClick({actions}) {
+    actions.view.TopBar.OperationDropdown.onAdd();
   }
 }

@@ -8,8 +8,8 @@ export default {
   },
   field: ({fieldId: selectedFieldId}, state) => {
     const operation = _.get(state, `view.TopBar.OperationDropdown.selectedOperation`);
-    if (operation == null || operation.fields == null || selectedFieldId == null) return null;
-    const status = _.get(operation.fields[selectedFieldId], 'status');
+    if (selectedFieldId == null) return null;
+    const status = _.get(operation, `fields.${selectedFieldId}.status`, null);
     let field = null;
     if (_.get(state, `app.OADAManager.connected`) == true) {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
@@ -36,5 +36,13 @@ export default {
       }
     }
     return farm;
+  },
+  showAddOperationButton: ({}, state) => {
+    if (_.get(state, `app.OADAManager.connected`) == true) {
+      let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
+      return _.isEmpty(_.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.operations`)); //TODO year
+    } else {
+      return _.isEmpty(_.get(state, `app.localData.abc123.seasons.2019.operations`)); //TODO year
+    }
   }
 }

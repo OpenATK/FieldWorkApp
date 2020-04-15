@@ -9,6 +9,8 @@ import {View, Text} from 'react-native';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import _ from 'lodash';
+import { Button } from 'semantic-ui-react'
+
 
 import overmind from '../../overmind'
 
@@ -17,8 +19,8 @@ export default function FieldDetails() {
   const myState = state.view.FieldDetails;
   const myActions = actions.view.FieldDetails;
 
-  let { open, field, farm } = myState;
-  const { onStatusChange, onEditFieldClick } = myActions;
+  let { open, field, farm, showAddOperationButton } = myState;
+  const { onStatusChange, onEditFieldClick, onAddNewOperationClick } = myActions;
 
   if (!Boolean(field)) {
     open = false;
@@ -44,28 +46,33 @@ export default function FieldDetails() {
           }
         </View>
         <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-          <FormControl component="fieldset">
-            <FormGroup aria-label="position" name="position" row>
-              <FormControlLabel
-                value="bottom"
-                control={<Checkbox color="primary" checked={(field.status == "planned") || false} onChange={()=>{onStatusChange({status: 'planned'})}} />}
-                label="Planned"
-                labelPlacement="bottom"
-              />
-              <FormControlLabel
-                value="bottom"
-                control={<Checkbox color="primary" checked={(field.status == "started") || false} onChange={()=>{onStatusChange({status: 'started'})}} />}
-                label="Started"
-                labelPlacement="bottom"
-              />
-              <FormControlLabel
-                value="bottom"
-                control={<Checkbox color="primary" checked={(field.status == "done") || false} onChange={()=>{onStatusChange({status: 'done'})}} />}
-                label="Done"
-                labelPlacement="bottom"
-              />
-            </FormGroup>
-          </FormControl>
+          {
+            showAddOperationButton ?
+              <Button style={{marginTop: 15}} onClick={() => myActions.onAddNewOperationClick()}>Add New Operation</Button>
+            :
+            <FormControl component="fieldset">
+              <FormGroup aria-label="position" name="position" row>
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox color="primary" checked={(field.status == "planned") || false} onChange={()=>{onStatusChange({status: 'planned'})}} />}
+                  label="Planned"
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox color="primary" checked={(field.status == "started") || false} onChange={()=>{onStatusChange({status: 'started'})}} />}
+                  label="Started"
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox color="primary" checked={(field.status == "done") || false} onChange={()=>{onStatusChange({status: 'done'})}} />}
+                  label="Done"
+                  labelPlacement="bottom"
+                />
+              </FormGroup>
+            </FormControl>
+          }
         </View>
       </View>
     </Drawer>
