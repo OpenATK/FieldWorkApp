@@ -96,6 +96,16 @@ export default {
       return v._id; //Key of oada id
     }).value();  //{_id: <oada-res-id>, id: <path-id>}
   },
+  oadaSeasonFarms_idByFarm_id: ({oadaOrgData}, state) => {
+    return _.chain(oadaOrgData).get(`fields.farms`).mapValues((v, k) => {
+      if (!v) return null
+      //Lookup season farm id
+      const seasonFarm_id = _.get(oadaOrgData, `seasons.2019.farms.${k}._id`);
+      return {seasonFarm_id: seasonFarm_id, farm_id: v._id};
+    }).omitBy(_.isNull).mapKeys((v, k) => {
+      return v.farm_id; //Key of oada id
+    }).value();  //{_id: <oada-res-id>, id: <path-id>}
+  },
   localOrgData: ({localData}) => {
     return localData.abc123; //TODO organization
   },
