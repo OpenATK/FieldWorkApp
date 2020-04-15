@@ -90,8 +90,9 @@ export default {
   },
   oadaSeasonFarmsIdBy_id: ({oadaOrgData}, state) => {
     return _.chain(oadaOrgData).get(`seasons.2019.farms`).mapValues((v, k) => {
+      if (!v) return null
       return {_id: v._id, id: k};
-    }).mapKeys((v, k) => {
+    }).omitBy(_.isNull).mapKeys((v, k) => {
       return v._id; //Key of oada id
     }).value();  //{_id: <oada-res-id>, id: <path-id>}
   },

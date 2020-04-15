@@ -26,6 +26,7 @@ export const actions = {
   TopBar: TopBar.actions,
   ..._actions
 }
-export const onInitialize = ({actions}) => {
-  actions.view.Login.onInitialize();
+export const onInitialize = async ({actions}) => {
+  await actions.app.onInitialize();
+  await actions.view.Login.onInitialize();
 }
