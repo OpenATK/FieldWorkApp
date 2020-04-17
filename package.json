@@ -27,8 +27,8 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "concurrently \"overmind-devtools\" \"cross-env PORT=8000 react-scripts start\"",
-    "build": "react-scripts build",
+    "start": "concurrently \"overmind-devtools\" \"cross-env PORT=8000 REACT_APP_VERSION=$npm_package_version react-scripts start\"",
+    "build": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "json -I -f package.json -e 'this.homepage=\"https://OpenATK.github.io/FieldWorkApp\"' && react-scripts build",
