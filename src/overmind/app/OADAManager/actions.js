@@ -76,6 +76,7 @@ export default {
     ];
     const ret = await actions.app.oada.get({requests: watchRequests, connection_id})
     let rewatchRequests = [];
+    console.log('SOMETIMES ERRORS:', ret);
     if (ret.responses[0].error) {
       //On 404 create and rewatch
       if (ret.responses[0].status != 404) throw ret.responses[0].error;
@@ -159,17 +160,18 @@ export default {
         }
       }
       if (fieldChange.farm) {
-        //Find season farm id from farm id
+        //Find new season farm id from farm id
         const farmId = _.get(fieldChange, 'farm._id');
         if (farmId) {
           const seasonFarmId = _.get(state, `app.oadaSeasonFarms_idByFarm_id.${farmId}.seasonFarm_id`)
-          if (seasonField == null || seasonField.farm == null || seasonField.farm._id == null || (seasonFarmId != null && seasonField.farm._id != seasonFarmId)) {
+          if (!seasonFarmId) {
+            console.log('No matching season farm found for farmId:', farmId, 'Cannot check if season fields farm has changed. Data:', fieldChange);
+          } else if (seasonField == null || seasonField.farm == null || seasonField.farm._id == null || (seasonFarmId != null && seasonField.farm._id != seasonFarmId)) {
             data.farm = _.merge({}, data.farm, {_id: seasonFarmId});
           }
         }
       }
       if (_.isEmpty(data)) return;
-      data.id = fieldChange.fieldId;
       requests.push(
         { //Change season's field's name, boundary
           tree,
@@ -202,13 +204,12 @@ export default {
         }
       }
       if (_.isEmpty(data)) return;
-      data.id = change.farmId;
       requests.push(
         { //Change season's farms's name
           tree,
           data,
           type: 'application/vnd.oada.farm.1+json',
-          path: `/bookmarks/seasons/2019/farms/${data.id}` //TODO year
+          path: `/bookmarks/seasons/2019/farms/${change.farmId}` //TODO year
         }
       )
     })

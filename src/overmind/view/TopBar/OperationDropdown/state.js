@@ -9,6 +9,7 @@ export default {
     const search = _.get(state, `view.TopBar.OperationDropdown.search`)
     return _.omitBy(_.mapValues(operations, ({name}, id) => {
       if (id == null) return null; //Not an operation, a _key for oada
+      if (name == null) return null;
       if (search != '' && name.search(search) == -1) return null;
       return {
         text: name,
