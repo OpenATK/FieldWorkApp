@@ -7,6 +7,7 @@ import ListIcon from '@material-ui/icons/Menu';
 
 import OperationDropdown from './OperationDropdown';
 import MoreDropdown from './MoreDropdown';
+import MyLocation from './MyLocation';
 
 export default function NormalToolbar({toggleTitle}) {
   return (
@@ -16,6 +17,7 @@ export default function NormalToolbar({toggleTitle}) {
       </IconButton>*/}
       <OperationDropdown style={{flex: 1}} />
       {/*<Button color="inherit">2019</Button>*/}
+      <MyLocation />
       <MoreDropdown />
     </Toolbar>
   );

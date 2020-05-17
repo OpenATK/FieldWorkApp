@@ -2,6 +2,16 @@ import _ from 'lodash'
 import uuid from 'uuid/v1'
 
 export default {
+  onMyLocationClick({actions}, coords) {
+    if (!coords) return;
+    const {latitude, longitude} = coords;
+    actions.view.Map.zoomTo({latitude, longitude, zoom: 15})
+  },
+  onLocationChange({state}, coords) {
+    if (!coords) return;
+    const {latitude, longitude} = coords;
+    state.view.Map.location = {latitude, longitude};
+  },
   onAddField({actions}) {
     actions.view.Map.BoundaryDrawing.onStartDrawing();
   },

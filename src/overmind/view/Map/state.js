@@ -4,6 +4,8 @@ export default {
   fieldStyles: {},
   selectedField: null,
   editingField: null,
+  center: [41.448068, -84.972648],
+  zoom: 13,
   bounds: [
     [
       41.44053877385792,
@@ -31,7 +33,7 @@ export default {
         if (operation.fields && operation.fields[id]) {
           if (operation.fields[id].status == 'planned') color = 'red'
           if (operation.fields[id].status == 'started') color = 'orange'
-          if (operation.fields[id].status == 'done') color = 'green'
+          if (operation.fields[id].status == 'done') color = '#0acd00' //Green
         }
         styledField.style = _.merge({}, styledField.style, {fillColor: color, color})
       }
