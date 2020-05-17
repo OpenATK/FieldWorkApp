@@ -1,6 +1,6 @@
 {
   "name": "field-work",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "homepage": "",
   "dependencies": {
     "@emotion/core": "^10.0.28",
@@ -20,6 +20,7 @@
     "overmind-react": "^24.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.8.6",
+    "react-geolocated": "^3.0.1",
     "react-leaflet": "^2.6.3",
     "react-native-web": "^0.12.2",
     "react-scripts": "3.4.1",

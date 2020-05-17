@@ -4,6 +4,14 @@ import BBox from '@turf/bbox';
 import GeoJSON from 'geojson';
 
 export default {
+  async zoomTo({state}, {latitude, longitude, zoom}) {
+    const myState = _.get(state, 'view.Map');
+    myState.center = [latitude, longitude];
+    myState.zoom = zoom;
+    await Promise.delay(500);
+    myState.center = null;
+    myState.zoom = null;
+  },
   styleField: {
     highlight({state}, fieldId) {
       if (fieldId) {

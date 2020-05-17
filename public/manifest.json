@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Field Work App",
+  "name": "A app for tracking operations on your farm.",
   "icons": [
     {
       "src": "favicon.ico",

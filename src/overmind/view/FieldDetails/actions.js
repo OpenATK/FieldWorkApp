@@ -38,7 +38,7 @@ export default {
           path: `/bookmarks/seasons/2019/fields/${selectedFieldId}/operations/${operationId}` //TODO year
         }
       ];
-      return actions.app.oada.delete({requests, connection_id: currentConnection});
+      actions.app.oada.delete({requests, connection_id: currentConnection});
     } else {
       //Optimistic Update
       //Add field to operation
@@ -64,7 +64,7 @@ export default {
           path: `/bookmarks/seasons/2019/fields/${selectedFieldId}/operations/${operationId}` //TODO year
         }
       ];
-      return actions.app.oada.put({requests, connection_id: currentConnection});
+      actions.app.oada.put({requests, connection_id: currentConnection});
     }
   },
   changeLocalFieldStatus({state}, status) {
