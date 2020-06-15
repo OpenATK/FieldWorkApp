@@ -1404,26 +1404,27 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@oada/oada-cache-overmind@https://github.com/OADA/oada-cache-overmind.git#3a9dd21":
-  version "0.0.3"
-  resolved "https://github.com/OADA/oada-cache-overmind.git#3a9dd217ee0178e6e3b44a0a4d2aeb834f072a68"
+"@oada/oada-cache-overmind@https://github.com/OADA/oada-cache-overmind.git#3c930bba6d70769a9d8fea2625e040e257b6ec4a":
+  version "1.0.0"
+  resolved "https://github.com/OADA/oada-cache-overmind.git#3c930bba6d70769a9d8fea2625e040e257b6ec4a"
   dependencies:
     "@babel/cli" "^7.8.4"
     "@babel/core" "^7.9.0"
     "@babel/preset-env" "^7.9.0"
     "@babel/register" "^7.9.0"
-    "@oada/oada-cache" "^3.1.6"
+    "@oada/oada-cache" "^4.0.0"
     bluebird "^3.7.2"
+    debug "^4.1.1"
     lodash "^4.17.15"
     url "^0.11.0"
     uuid "^7.0.3"
 
-"@oada/oada-cache@^3.1.6":
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/@oada/oada-cache/-/oada-cache-3.1.6.tgz#4e8a2d0e92705a2a0924096bf1a3e860d260255a"
-  integrity sha512-S7KPtWxCxHCN3CaRjeDcggdIffpmgJBTX3ogh8Cxp/YZwJnwn5Es6YPp7mRKeyK/bIGdGBcfB/sEeZi83Jp1nQ==
+"@oada/oada-cache@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@oada/oada-cache/-/oada-cache-4.0.0.tgz#635e3da0fd5bd70bdd40152b46e47ae311be6421"
+  integrity sha512-mVUJGRNuo4L9ao9Aqx3UzeJDjxaO9QSV/FjGlMM0c8uY+cFlo27WoxSuYaCHtEHfzmzFEq6nwrcMV0Fp2ESptA==
   dependencies:
-    "@oada/oada-id-client" "^1.0.1"
+    "@oada/oada-id-client" "^1.0.8"
     axios "^0.19.2"
     bluebird "^3.5.1"
     chai "^4.2.0"
@@ -1480,10 +1481,29 @@
     url "^0.11.0"
     uuid "^3.3.3"
 
-"@oada/oada-id-client@^1.0.1", "@oada/oada-id-client@^1.0.7":
+"@oada/oada-id-client@^1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@oada/oada-id-client/-/oada-id-client-1.0.7.tgz#a6a878e5353edf5fc976501df9e24e5ecfeec6ba"
   integrity sha512-D7fHT/yIC3R4wD/bwpsaQgOyDknshgluJoor9NlhsBm8OQnfB90PzlAXGbEg3J675r2OK+QT8ljNv993kUXOpw==
+  dependencies:
+    "@oada/oada-certs" "^3.1.6"
+    bluebird "^3.7.2"
+    grunt-parallel "^0.5.1"
+    is-wsl "^2.1.1"
+    jsonwebtoken "^8.5.1"
+    jws "^4.0.0"
+    jwt-bearer-client-auth "^1.0.0"
+    oauth-dyn-reg "^1.0.2"
+    object-assign "^4.1.1"
+    open "^7.0.3"
+    pem-jwk "^2.0.0"
+    superagent "^5.2.2"
+    urijs "^1.18.12"
+
+"@oada/oada-id-client@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@oada/oada-id-client/-/oada-id-client-1.0.8.tgz#35e1bc26e380052709336093222ce605ef31a223"
+  integrity sha512-ylnmGm0/gE/7yicxxn4ijyqBsfm3UGYVkkwoBn2J5BJ/Qp9CCQyg4G+riomChhbw6rghruUXFFnqZ7b2veajQg==
   dependencies:
     "@oada/oada-certs" "^3.1.6"
     bluebird "^3.7.2"

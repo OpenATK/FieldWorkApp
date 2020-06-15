@@ -7,7 +7,7 @@
     "@mapbox/geojson-area": "^0.2.2",
     "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^4.0.1",
-    "@oada/oada-cache-overmind": "https://github.com/OADA/oada-cache-overmind.git#3a9dd21",
+    "@oada/oada-cache-overmind": "https://github.com/OADA/oada-cache-overmind.git#3c930bba6d70769a9d8fea2625e040e257b6ec4a",
     "@oada/oada-id-client": "^1.0.7",
     "@turf/bbox": "^6.0.1",
     "babel-preset-react": "^6.24.1",

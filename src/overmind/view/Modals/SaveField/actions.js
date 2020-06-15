@@ -48,7 +48,7 @@ function saveChangesToLocalData({state}, editingFieldId, fieldChanges, seasonFie
   if (_.isEmpty(fieldChanges) && _.isEmpty(seasonFieldChanges)) return;
   const fieldPath = `app.localData.abc123.fields.fields.${editingFieldId}`; //TODO organization
   _.set(state, fieldPath, _.merge({}, _.get(state, fieldPath), fieldChanges));
-  const seasonFieldPath = `app.localData.abc123.seasons.2019.fields.${editingFieldId}` //TODO year, organization
+  const seasonFieldPath = `app.localData.abc123.seasons.2020.fields.${editingFieldId}` //TODO year, organization
   _.set(state, seasonFieldPath, _.merge({}, _.get(state, seasonFieldPath), seasonFieldChanges));
 }
 async function saveChangesToOADA(context, editingFieldId, fieldChanges, seasonFieldChanges) {
@@ -67,7 +67,7 @@ async function saveChangesToOADA(context, editingFieldId, fieldChanges, seasonFi
     requests.push({
       tree,
       data: seasonFieldChanges,
-      path: `/bookmarks/seasons/2019/fields/${editingFieldId}` //TODO year
+      path: `/bookmarks/seasons/2020/fields/${editingFieldId}` //TODO year
     })
   }
   console.log('fieldChanges', fieldChanges);
@@ -97,7 +97,7 @@ function addFieldToLocalData(context, {field}) {
   const { state } = context;
   const id = uuid();
   _.set(state, `app.localData.abc123.fields.fields.${id}`, field); //TODO organization
-  _.set(state, `app.localData.abc123.seasons.2019.fields.${id}`, {...field, operations: {}, year: '2019'}); //TODO year, organization
+  _.set(state, `app.localData.abc123.seasons.2020.fields.${id}`, {...field, operations: {}, year: '2020'}); //TODO year, organization
   return id;
 }
 async function addFieldToOADA(context, {field, seasonField}) {
@@ -115,8 +115,8 @@ async function addFieldToOADA(context, {field, seasonField}) {
   if (seasonField) {
     requests.push({
       tree,
-      data: {...seasonField, operations: {}, year: '2019'}, //TODO year
-      path: `/bookmarks/seasons/2019/fields/${id}` //TODO year
+      data: {...seasonField, operations: {}, year: '2020'}, //TODO year
+      path: `/bookmarks/seasons/2020/fields/${id}` //TODO year
     })
   }
   let connection_id = _.get(state, `app.OADAManager.currentConnection`)

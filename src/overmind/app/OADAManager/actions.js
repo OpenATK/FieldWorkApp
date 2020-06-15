@@ -177,7 +177,7 @@ export default {
           tree,
           data,
           type: 'application/vnd.oada.field.1+json',
-          path: `/bookmarks/seasons/2019/fields/${fieldChange.fieldId}` //TODO year
+          path: `/bookmarks/seasons/2020/fields/${fieldChange.fieldId}` //TODO year
         }
       )
     })
@@ -209,7 +209,7 @@ export default {
           tree,
           data,
           type: 'application/vnd.oada.farm.1+json',
-          path: `/bookmarks/seasons/2019/farms/${change.farmId}` //TODO year
+          path: `/bookmarks/seasons/2020/farms/${change.farmId}` //TODO year
         }
       )
     })
@@ -230,7 +230,7 @@ export default {
         { //Change season's farms's name
           tree,
           type: 'application/vnd.oada.field.1+json',
-          path: `/bookmarks/seasons/2019/fields/${fieldId}` //TODO year
+          path: `/bookmarks/seasons/2020/fields/${fieldId}` //TODO year
         }
       )
     })
@@ -251,7 +251,7 @@ export default {
         { //Change season's farms's name
           tree,
           type: 'application/vnd.oada.farm.1+json',
-          path: `/bookmarks/seasons/2019/farms/${farmId}` //TODO year
+          path: `/bookmarks/seasons/2020/farms/${farmId}` //TODO year
         }
       )
     })
@@ -277,7 +277,48 @@ export default {
     */
     console.log('onFieldChanged', props);
     const myActions = actions.app.OADAManager;
+    const changes = _.get(props, 'response.change') || [];
+    if (!_.isArray(changes)) {
+      console.warn('WARNING: response.change not an array')
+      return;
+    }
+    const watchPath = (props.path && props.path.length > 0) ? `${props.connection_id}.${props.path}` : props.connection_id;
+    let fieldsChanged = [];
+    let fieldsDeleted = [];
+    _.forEach(changes, (change) => {
+      if (change.type == 'merge') {
+        //Get the currentState at the change path
+        const changePathArr = change.path.split('/')
+        const changePath = changePathArr.join('.')
+        const currentState = _.get(state, `${watchPath}${changePath}`);
+        if (_.get(changePathArr, 1) == 'fields') {
+          const fieldId = _.get(changePathArr, 2)
+          if (fieldId == null && _.get(change, 'body') != null) {
+            console.log('WARNING: Received a bad field change from OADA', props);
+            return;
+          }
+          const {name, boundary} = _.get(change, 'body');
+          //Push all non-undefined values
+          fieldsChanged.push(_.pickBy({fieldId, name, boundary}, (a)=>!_.isUndefined(a)));
+        }
+      } else if (change.type == 'delete') {
+        //Get the currentState at the change path
+        const changePath = change.path.split('/').join('.')
+        const currentState = _.get(state, `${watchPath}${changePath}`);
+        //If body has a null field in it, delete that season field
+        _.forEach(_.get(change, 'body.fields'), (value, fieldId) => {
+          if (value == null) fieldsDeleted.push(fieldId);
+        })
+      } else {
+        console.warn('Unrecognized change type', change.type);
+      }
+    })
+    if (fieldsDeleted.length > 0) myActions.deleteSeasonFields(fieldsDeleted);
+    if (fieldsChanged.length > 0) myActions.changeSeasonFields(fieldsChanged);
+
+    /*
     let changeType = _.get(props, 'response.change.type');
+
     if (changeType == 'merge' || changeType == 'delete') {
       let deleted = false;
       const wasDelete = _.get(props, 'response.change.wasDelete');
@@ -314,7 +355,7 @@ export default {
       if (farmsChanged.length > 0) myActions.changeSeasonFarms(farmsChanged);
     } else {
       console.warn("onFieldChanged: Unsupported change type:", changeType)
-    }
+    }*/
   },
   onSeasonsChanged({state, actions}, props) {
 

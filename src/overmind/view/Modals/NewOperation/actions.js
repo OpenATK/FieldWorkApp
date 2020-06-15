@@ -12,7 +12,7 @@ function createOperation(context, {name}) {
 
 function addOperationToLocalData({state}, {operation}) {
   const id = uuid();
-  _.set(state, `app.localData.abc123.seasons.2019.operations.${id}`, operation); //TODO year, organization
+  _.set(state, `app.localData.abc123.seasons.2020.operations.${id}`, operation); //TODO year, organization
   return id;
 }
 async function addOperationToOADA({state, actions}, {operation}) {
@@ -22,7 +22,7 @@ async function addOperationToOADA({state, actions}, {operation}) {
     {
       tree,
       data: operation,
-      path: `/bookmarks/seasons/2019/operations/${id}` //TODO year
+      path: `/bookmarks/seasons/2020/operations/${id}` //TODO year
     }
   ];
   const connection_id = _.get(state, `app.OADAManager.currentConnection`)

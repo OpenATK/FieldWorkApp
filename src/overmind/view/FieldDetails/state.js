@@ -13,9 +13,9 @@ export default {
     let field = null;
     if (_.get(state, `app.OADAManager.connected`) == true) {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-      field = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.fields.${selectedFieldId}`); //TODO year
+      field = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2020.fields.${selectedFieldId}`); //TODO year
     } else {
-      field = _.get(state, `app.localData.abc123.seasons.2019.fields.${selectedFieldId}`); //TODO year, organization
+      field = _.get(state, `app.localData.abc123.seasons.2020.fields.${selectedFieldId}`); //TODO year, organization
     }
     if (field == null) return null;
     const acres = geojsonArea.geometry(field.boundary) * 0.000247105 //Meters to acres;
@@ -28,11 +28,11 @@ export default {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
       if (_.get(field, 'farm._id')) {
         const farmId = _.get(state, `app.oadaSeasonFarmsIdBy_id.${_.get(field, 'farm._id')}.id`)
-        farm = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.farms.${farmId}`); //TODO year
+        farm = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2020.farms.${farmId}`); //TODO year
       }
     } else {
       if (_.get(field, 'farm.id')) {
-        farm = _.get(state, `app.localData.abc123.seasons.2019.farms.${field.farm.id}`); //TODO year, organization
+        farm = _.get(state, `app.localData.abc123.seasons.2020.farms.${field.farm.id}`); //TODO year, organization
       }
     }
     return farm;
@@ -40,9 +40,9 @@ export default {
   showAddOperationButton: ({}, state) => {
     if (_.get(state, `app.OADAManager.connected`) == true) {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-      return _.isEmpty(_.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.operations`)); //TODO year
+      return _.isEmpty(_.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2020.operations`)); //TODO year
     } else {
-      return _.isEmpty(_.get(state, `app.localData.abc123.seasons.2019.operations`)); //TODO year
+      return _.isEmpty(_.get(state, `app.localData.abc123.seasons.2020.operations`)); //TODO year
     }
   }
 }

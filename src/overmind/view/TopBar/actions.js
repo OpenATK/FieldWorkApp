@@ -10,6 +10,8 @@ export default {
   onLocationChange({state}, coords) {
     if (!coords) return;
     const {latitude, longitude} = coords;
+    console.log('onLocationChange', coords)
+    if (latitude == null || longitude == null) return;
     state.view.Map.location = {latitude, longitude};
   },
   onAddField({actions}) {

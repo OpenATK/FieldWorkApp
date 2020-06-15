@@ -41,12 +41,12 @@ export default {
     let farms;
     if (_.get(state, `app.OADAManager.connected`) == true) {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-      farms = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2019.farms`).omitBy((v, k) => { //TODO year
+      farms = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2020.farms`).omitBy((v, k) => { //TODO year
         if (_.startsWith(k, '_')) return true;
         if (v == null) return true;
       }).value();
     } else {
-      farms = _.get(state, `app.localData.abc123.seasons.2019.farms`) //TODO year, organization
+      farms = _.get(state, `app.localData.abc123.seasons.2020.farms`) //TODO year, organization
     }
     return farms || {};
   },
@@ -54,12 +54,12 @@ export default {
     let fields;
     if (_.get(state, `app.OADAManager.connected`) == true) {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-      fields = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2019.fields`).omitBy((v, k) => { //TODO year
+      fields = _.chain(state).get(`app.oada.${currentConnection}.bookmarks.seasons.2020.fields`).omitBy((v, k) => { //TODO year
         if (_.startsWith(k, '_')) return true;
         if (v == null) return true;
       }).value();
     } else {
-      fields = _.get(state, `app.localData.abc123.seasons.2019.fields`) //TODO year, organization
+      fields = _.get(state, `app.localData.abc123.seasons.2020.fields`) //TODO year, organization
     }
     return fields || {};
   },
@@ -69,9 +69,9 @@ export default {
     if (operationId != null) {
       if (_.get(state, `app.OADAManager.connected`) == true) {
         let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-        operationFields = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.operations.${operationId}.fields`) || []; //TODO year
+        operationFields = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2020.operations.${operationId}.fields`) || []; //TODO year
       } else {
-        operationFields = _.get(state, `app.localData.abc123.seasons.2019.operations.${operationId}.fields`) || []; //TODO year, organization
+        operationFields = _.get(state, `app.localData.abc123.seasons.2020.operations.${operationId}.fields`) || []; //TODO year, organization
       }
     }
     return operationFields; // {<field-id>: {status: 'planned'}, ...}
@@ -89,7 +89,7 @@ export default {
     }
   },
   oadaSeasonFarmsIdBy_id: ({oadaOrgData}, state) => {
-    return _.chain(oadaOrgData).get(`seasons.2019.farms`).mapValues((v, k) => {
+    return _.chain(oadaOrgData).get(`seasons.2020.farms`).mapValues((v, k) => {
       if (!v) return null
       return {_id: v._id, id: k};
     }).omitBy(_.isNull).mapKeys((v, k) => {
@@ -100,7 +100,7 @@ export default {
     return _.chain(oadaOrgData).get(`fields.farms`).mapValues((v, k) => {
       if (!v) return null
       //Lookup season farm id
-      const seasonFarm_id = _.get(oadaOrgData, `seasons.2019.farms.${k}._id`);
+      const seasonFarm_id = _.get(oadaOrgData, `seasons.2020.farms.${k}._id`);
       return {seasonFarm_id: seasonFarm_id, farm_id: v._id};
     }).omitBy(_.isNull).mapKeys((v, k) => {
       return v.farm_id; //Key of oada id
@@ -130,7 +130,7 @@ export default {
         }
       },
       seasons: {
-        /*'2019': {
+        /*'2020': {
           fields: {
             '<field-uuid>': {
               season: 2018,
@@ -143,7 +143,7 @@ export default {
           operations: {
             '<operation-uuid>': {
               id: '<operation-uuid>',
-              year: 2019,
+              year: 2020,
               name: 'Corn Planting',
               fields: {
                 '<field-uuid>': {
@@ -153,7 +153,7 @@ export default {
             }
           }
         }*/
-        '2019': {
+        '2020': {
           fields: {
             ...testFields,
           },
@@ -163,7 +163,7 @@ export default {
           operations: {
             /*'<operation-uuid>': {
               id: '<operation-uuid>',
-              year: 2019,
+              year: 2020,
               name: 'Corn Planting',
               fields: {
                 '<field-uuid>': {
