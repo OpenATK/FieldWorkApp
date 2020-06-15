@@ -61,6 +61,8 @@ export default {
     }));
     const featureCollection = GeoJSON.parse(fields, {GeoJSON: 'geo'})
     const bounds = BBox(featureCollection)
-    myState.bounds = [[bounds[1], bounds[0]], [bounds[3], bounds[2]]];
+    if (isFinite(bounds[0]) && isFinite(bounds[1]) && isFinite(bounds[2]) && isFinite(bounds[3])) {
+      myState.bounds = [[bounds[1], bounds[0]], [bounds[3], bounds[2]]];
+    }
   }
 }

@@ -23,6 +23,8 @@ export default {
     const operation = _.get(state, `view.TopBar.OperationDropdown.selectedOperation`)
     const fieldsToRender = _.get(state, `app.seasonFields`);
     return _.chain(fieldsToRender).mapValues((field, id) => {
+      if (field == null) return null;
+      if (field.boundary == null) return null;
       if (editingField == id) return null; //Don't show this field.
       var styledField = _.clone(field);
       //Add any styles

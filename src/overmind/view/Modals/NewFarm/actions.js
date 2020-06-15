@@ -12,7 +12,7 @@ function addFarmToLocalData(context, {farm}) {
   const { state } = context;
   const id = uuid();
   _.set(state, `app.localData.abc123.farms.${id}`, farm); //TODO organization
-  _.set(state, `app.localData.abc123.seasons.2019.farms.${id}`, farm); //TODO year, organization
+  _.set(state, `app.localData.abc123.seasons.2020.farms.${id}`, farm); //TODO year, organization
   return id;
 }
 async function addFarmToOADA(context, {farm}) {
@@ -29,7 +29,7 @@ async function addFarmToOADA(context, {farm}) {
     {
       tree,
       data: farm,
-      path: `/bookmarks/seasons/2019/farms/${id}` //TODO year
+      path: `/bookmarks/seasons/2020/farms/${id}` //TODO year
     },
   ];
   let connection_id = _.get(state, `app.OADAManager.currentConnection`)

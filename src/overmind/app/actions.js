@@ -4,9 +4,9 @@ export default {
     let fields = [];
     if (_.get(state, `app.OADAManager.connected`) == true) {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-      fields = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.fields`) //TODO year
+      fields = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2020.fields`) //TODO year
     } else {
-      fields = _.get(state, `app.localData.abc123.seasons.2019.fields`) //TODO year, organization
+      fields = _.get(state, `app.localData.abc123.seasons.2020.fields`) //TODO year, organization
     }
     return fields[id];
   },
@@ -14,9 +14,9 @@ export default {
     let farms = [];
     if (_.get(state, `app.OADAManager.connected`) == true) {
       let currentConnection = _.get(state, `app.OADAManager.currentConnection`)
-      farms = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2019.farms`) //TODO year
+      farms = _.get(state, `app.oada.${currentConnection}.bookmarks.seasons.2020.farms`) //TODO year
     } else {
-      farms = _.get(state, `app.localData.abc123.seasons.2019.farms`) //TODO year, organization
+      farms = _.get(state, `app.localData.abc123.seasons.2020.farms`) //TODO year, organization
     }
     return farms[id];
   },
