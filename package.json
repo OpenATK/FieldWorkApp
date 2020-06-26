@@ -1,6 +1,6 @@
 {
   "name": "field-work",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "",
   "dependencies": {
     "@emotion/core": "^10.0.28",
