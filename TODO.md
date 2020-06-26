@@ -17,3 +17,9 @@
 - Add in organizations (multiple oada connections)
 
 oadaqa.winfieldunited.com
+
+
+- Dont make operation a rev'd link inside a field.
+  - Instead watch the /operations? Maybe im doing that already and just don't need the rev'd link
+  - Is there a way we can remove 'operation' form field in tree, but still create a link to it when i push a new field?
+    - I don't want it to pull down the operation when i do the initial get (supply a different tree to get???)

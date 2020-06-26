@@ -70,7 +70,7 @@ export default {
         path: '/bookmarks/seasons',
         tree,
         watch: {
-          actions: [actions.app.OADAManager.onSeasonsChanged]
+          actions: []
         },
       }
     ];
@@ -285,6 +285,8 @@ export default {
     const watchPath = (props.path && props.path.length > 0) ? `${props.connection_id}.${props.path}` : props.connection_id;
     let fieldsChanged = [];
     let fieldsDeleted = [];
+    let farmsChanged = [];
+    let farmsDeleted = [];
     _.forEach(changes, (change) => {
       if (change.type == 'merge') {
         //Get the currentState at the change path
@@ -292,6 +294,7 @@ export default {
         const changePath = changePathArr.join('.')
         const currentState = _.get(state, `${watchPath}${changePath}`);
         if (_.get(changePathArr, 1) == 'fields') {
+          //A field was changed
           const fieldId = _.get(changePathArr, 2)
           if (fieldId == null && _.get(change, 'body') != null) {
             console.log('WARNING: Received a bad field change from OADA', props);
@@ -300,6 +303,16 @@ export default {
           const {name, boundary} = _.get(change, 'body');
           //Push all non-undefined values
           fieldsChanged.push(_.pickBy({fieldId, name, boundary}, (a)=>!_.isUndefined(a)));
+        } else if (_.get(changePathArr, 1) == 'farms') {
+          //A farm was changed
+          const farmId = _.get(changePathArr, 2)
+          if (farmId == null && _.get(change, 'body') != null) {
+            console.log('WARNING: Received a bad farm change from OADA', props);
+            return;
+          }
+          const {name} = _.get(change, 'body');
+          //Push all non-undefined values
+          farmsChanged.push(_.pickBy({farmId, name}, (a)=>!_.isUndefined(a)));
         }
       } else if (change.type == 'delete') {
         //Get the currentState at the change path
@@ -309,53 +322,18 @@ export default {
         _.forEach(_.get(change, 'body.fields'), (value, fieldId) => {
           if (value == null) fieldsDeleted.push(fieldId);
         })
+        //If body has a null farm in it, delete that season farm
+        _.forEach(_.get(change, 'body.farms'), (value, farmId) => {
+          if (value == null) farmsDeleted.push(farmId);
+        })
       } else {
         console.warn('Unrecognized change type', change.type);
       }
     })
     if (fieldsDeleted.length > 0) myActions.deleteSeasonFields(fieldsDeleted);
     if (fieldsChanged.length > 0) myActions.changeSeasonFields(fieldsChanged);
-
-    /*
-    let changeType = _.get(props, 'response.change.type');
-
-    if (changeType == 'merge' || changeType == 'delete') {
-      let deleted = false;
-      const wasDelete = _.get(props, 'response.change.wasDelete');
-      if (changeType == 'deleted' || wasDelete) deleted = true;
-      let fieldsChanged = [];
-      let fieldsDeleted = [];
-      _.forEach(_.get(props, 'response.change.body.data.fields'), (obj, key) => {
-        if (key == 'undefined') {
-          console.log('WARNING: Received a bad field change from OADA', props);
-          return; //TODO temp fix for oada changes being wrong
-        }
-        if (deleted) {
-          fieldsDeleted.push(key);
-        } else {
-          fieldsChanged.push({fieldId: key, deleted, name: _.get(obj, 'name'), boundary: _.get(obj, 'boundary')});
-        }
-      })
-      if (fieldsDeleted.length > 0) myActions.deleteSeasonFields(fieldsDeleted);
-      if (fieldsChanged.length > 0) myActions.changeSeasonFields(fieldsChanged);
-      let farmsChanged = [];
-      let farmsDeleted = [];
-      _.forEach(_.get(props, 'response.change.body.data.farms'), (obj, key) => {
-        if (key == 'undefined') {
-          console.log('WARNING: Received a bad farm change from OADA', props);
-          return; //TODO temp fix for oada changes being wrong
-        }
-        if (deleted) {
-          farmsDeleted.push(key);
-        } else {
-          farmsChanged.push({farmId: key, deleted, name: _.get(obj, 'name')});
-        }
-      })
-      if (farmsDeleted.length > 0) myActions.deleteSeasonFarms(farmsDeleted);
-      if (farmsChanged.length > 0) myActions.changeSeasonFarms(farmsChanged);
-    } else {
-      console.warn("onFieldChanged: Unsupported change type:", changeType)
-    }*/
+    if (farmsDeleted.length > 0) myActions.deleteSeasonFarms(farmsDeleted);
+    if (farmsChanged.length > 0) myActions.changeSeasonFarms(farmsChanged);
   },
   onSeasonsChanged({state, actions}, props) {
 
