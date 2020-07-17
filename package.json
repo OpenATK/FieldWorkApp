@@ -1,6 +1,6 @@
 {
   "name": "field-work",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "",
   "dependencies": {
     "@emotion/core": "^10.0.28",
@@ -34,7 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "json -I -f package.json -e 'this.homepage=\"https://OpenATK.github.io/FieldWorkApp\"' && cross-env REACT_APP_VERSION=$npm_package_version react-scripts build",
-    "deploy": "gh-pages -o github -d build",
+    "deploy": "gh-pages -d build",
     "postdeploy": "json -I -f package.json -e 'this.homepage=\"\"'"
   },
   "eslintConfig": {
