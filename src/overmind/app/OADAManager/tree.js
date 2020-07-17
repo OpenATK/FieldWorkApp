@@ -33,8 +33,7 @@ export default {
             _rev: 0,
             operations: {
               "*": {
-                _type: "application/vnd.oada.operation.1+json",
-                _rev: 0
+                _type: "application/vnd.oada.operation.1+json"
               }
             }
           }
