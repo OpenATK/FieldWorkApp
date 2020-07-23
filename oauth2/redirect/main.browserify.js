@@ -38048,7 +38048,7 @@ browser.handleRedirect = function() {
     console.log('index.html - params', params);
 
     window.opener._oadaIdClientPopUpFunction(params);
-    window.close();
+    //window.close();
 };
 
 module.exports = browser;
