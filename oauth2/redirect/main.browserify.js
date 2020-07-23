@@ -38042,6 +38042,7 @@ browser.getAccessToken =
     popUpRedirect(core.getAccessToken, {});
 
 browser.handleRedirect = function() {
+    console.log('handleRedirect')
     console.log('index.html - handleRedirect', window.location);
     var uri = new URI(window.location);
     var params = uri.query(uri.fragment()).query(true);
