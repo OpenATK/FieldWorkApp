@@ -178,7 +178,7 @@
     if (root.IPv6 === this) {
       root.IPv6 = _IPv6;
     }
-  
+
     return this;
   }
 
@@ -4801,19 +4801,19 @@ module.exports = base64url;
 (function (process,global){
 /* @preserve
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2014 Petka Antonov
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
@@ -4821,7 +4821,7 @@ module.exports = base64url;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * 
+ *
  */
 /**
  * bluebird build version 2.9.34
@@ -7707,30 +7707,30 @@ _dereq_('./any.js')(Promise);
 _dereq_('./each.js')(Promise, INTERNAL);
 _dereq_('./timers.js')(Promise, INTERNAL);
 _dereq_('./filter.js')(Promise, INTERNAL);
-                                                         
-    util.toFastProperties(Promise);                                          
-    util.toFastProperties(Promise.prototype);                                
-    function fillTypes(value) {                                              
-        var p = new Promise(INTERNAL);                                       
-        p._fulfillmentHandler0 = value;                                      
-        p._rejectionHandler0 = value;                                        
-        p._progressHandler0 = value;                                         
-        p._promise0 = value;                                                 
-        p._receiver0 = value;                                                
-        p._settledValue = value;                                             
-    }                                                                        
-    // Complete slack tracking, opt out of field-type tracking and           
-    // stabilize map                                                         
-    fillTypes({a: 1});                                                       
-    fillTypes({b: 2});                                                       
-    fillTypes({c: 3});                                                       
-    fillTypes(1);                                                            
-    fillTypes(function(){});                                                 
-    fillTypes(undefined);                                                    
-    fillTypes(false);                                                        
-    fillTypes(new Promise(INTERNAL));                                        
-    CapturedTrace.setBounds(async.firstLineError, util.lastLineError);       
-    return Promise;                                                          
+
+    util.toFastProperties(Promise);
+    util.toFastProperties(Promise.prototype);
+    function fillTypes(value) {
+        var p = new Promise(INTERNAL);
+        p._fulfillmentHandler0 = value;
+        p._rejectionHandler0 = value;
+        p._progressHandler0 = value;
+        p._promise0 = value;
+        p._receiver0 = value;
+        p._settledValue = value;
+    }
+    // Complete slack tracking, opt out of field-type tracking and
+    // stabilize map
+    fillTypes({a: 1});
+    fillTypes({b: 2});
+    fillTypes({c: 3});
+    fillTypes(1);
+    fillTypes(function(){});
+    fillTypes(undefined);
+    fillTypes(false);
+    fillTypes(new Promise(INTERNAL));
+    CapturedTrace.setBounds(async.firstLineError, util.lastLineError);
+    return Promise;
 
 };
 
@@ -30971,7 +30971,7 @@ module.exports = function privateDecrypt(private_key, enc, reverse) {
   } else {
     padding = 4;
   }
-  
+
   var key = parseKeys(private_key);
   var k = key.modulus.byteLength();
   if (enc.length > k || new bn(enc).cmp(key.modulus) >= 0) {
@@ -31952,7 +31952,7 @@ function randomBytes (size, cb) {
  * TODO: combatible error handling?
  */
 
-module.exports = function(arr, fn, initial){  
+module.exports = function(arr, fn, initial){
   var idx = 0;
   var len = arr.length;
   var curr = arguments.length == 3
@@ -31962,7 +31962,7 @@ module.exports = function(arr, fn, initial){
   while (idx < len) {
     curr = fn.call(null, curr, arr[idx], ++idx, arr);
   }
-  
+
   return curr;
 };
 },{}],176:[function(require,module,exports){
@@ -32185,37 +32185,37 @@ module.exports = rsaPublicKeyPem;
 
 //http://stackoverflow.com/questions/18835132/xml-to-pem-in-node-js
 function rsaPublicKeyPem(modulus_b64, exponent_b64) {
- 
+
     var modulus = new Buffer(modulus_b64, 'base64');
     var exponent = new Buffer(exponent_b64, 'base64');
- 
+
     var modulus_hex = modulus.toString('hex')
     var exponent_hex = exponent.toString('hex')
- 
+
     modulus_hex = prepadSigned(modulus_hex)
     exponent_hex = prepadSigned(exponent_hex)
- 
+
     var modlen = modulus_hex.length/2
     var explen = exponent_hex.length/2
- 
+
     var encoded_modlen = encodeLengthHex(modlen)
     var encoded_explen = encodeLengthHex(explen)
-    var encoded_pubkey = '30' + 
+    var encoded_pubkey = '30' +
         encodeLengthHex(
-            modlen + 
-            explen + 
-            encoded_modlen.length/2 + 
+            modlen +
+            explen +
+            encoded_modlen.length/2 +
             encoded_explen.length/2 + 2
-        ) + 
+        ) +
         '02' + encoded_modlen + modulus_hex +
         '02' + encoded_explen + exponent_hex;
 
     var der_b64 = new Buffer(encoded_pubkey, 'hex').toString('base64');
 
-    var pem = '-----BEGIN RSA PUBLIC KEY-----\n' 
-        + der_b64.match(/.{1,64}/g).join('\n') 
+    var pem = '-----BEGIN RSA PUBLIC KEY-----\n'
+        + der_b64.match(/.{1,64}/g).join('\n')
         + '\n-----END RSA PUBLIC KEY-----\n';
- 
+
     return pem
 }
 
@@ -35808,7 +35808,7 @@ Request.prototype.type = function(type){
 };
 
 /**
- * Set responseType to `val`. Presently valid responseTypes are 'blob' and 
+ * Set responseType to `val`. Presently valid responseTypes are 'blob' and
  * 'arraybuffer'.
  *
  * Examples:
@@ -37881,13 +37881,13 @@ Script.prototype.runInContext = function (context) {
     if (!(context instanceof Context)) {
         throw new TypeError("needs a 'context' argument.");
     }
-    
+
     var iframe = document.createElement('iframe');
     if (!iframe.style) iframe.style = {};
     iframe.style.display = 'none';
-    
+
     document.body.appendChild(iframe);
-    
+
     var win = iframe.contentWindow;
     var wEval = win.eval, wExecScript = win.execScript;
 
@@ -37896,7 +37896,7 @@ Script.prototype.runInContext = function (context) {
         wExecScript.call(win, 'null');
         wEval = win.eval;
     }
-    
+
     forEach(Object_keys(context), function (key) {
         win[key] = context[key];
     });
@@ -37905,11 +37905,11 @@ Script.prototype.runInContext = function (context) {
             win[key] = context[key];
         }
     });
-    
+
     var winKeys = Object_keys(win);
 
     var res = wEval.call(win, this.code);
-    
+
     forEach(Object_keys(win), function (key) {
         // Avoid copying circular objects like `top` and `window` by only
         // updating existing context properties or new properties in the `win`
@@ -37924,9 +37924,9 @@ Script.prototype.runInContext = function (context) {
             defineProp(context, key, win[key]);
         }
     });
-    
+
     document.body.removeChild(iframe);
-    
+
     return res;
 };
 
@@ -38042,11 +38042,14 @@ browser.getAccessToken =
     popUpRedirect(core.getAccessToken, {});
 
 browser.handleRedirect = function() {
+    console.log('handleRedirect')
+    console.log('index.html - handleRedirect', window.location);
     var uri = new URI(window.location);
     var params = uri.query(uri.fragment()).query(true);
+    console.log('index.html - params', params);
 
     window.opener._oadaIdClientPopUpFunction(params);
-    window.close();
+    //window.close();
 };
 
 module.exports = browser;

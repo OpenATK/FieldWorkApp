@@ -1,5 +1,6 @@
 export default {
   onInitialize({ state, actions }) {
+    console.log('Login - onInitialize')
     const domain = window.localStorage['oada:domain'];
     const token = window.localStorage['oada:token'];
     if (domain) {
@@ -11,6 +12,7 @@ export default {
     }
   },
   async login({ state, actions }, {token}) {
+    console.log('Login - login')
     const myState = state.view.Login;
     let domain = myState.domain;
     myState.loading = true;
@@ -23,6 +25,7 @@ export default {
       window.localStorage['oada:domain'] = myState.domain;
       window.localStorage['oada:token'] = state.app.OADAManager.token;
     }
+    console.log('Login - done')
   },
   async logout({ state, actions }) {
     const myState = state.view.Login;

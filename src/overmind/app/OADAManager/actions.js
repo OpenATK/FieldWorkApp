@@ -12,14 +12,17 @@ export default {
     */
     const myState = state.app.OADAManager;
     if (myState.token) return myState.token;
+    console.log('beforeGetAccessToken')
     let res = await getAccessToken(domain.replace(/^https?:\/\//, ''), {
       metadata: config.METADATA,
       scope: config.SCOPE,
       redirect: config.REDIRECT
     })
+    console.log('afterGetAccessToken')
     return res.access_token;
   },
   async connect({actions, state, effects}, {domain, token}) {
+    console.log('OADAManager - connect')
     const myState = state.app.OADAManager;
     const myActions = actions.app.OADAManager;
     if (token) myState.token = token;
@@ -39,6 +42,7 @@ export default {
       }
       return response;
     })
+    console.log('OADAManager - connect done')
   },
   async logout({actions, state}) {
     const myState = state.app.OADAManager;
@@ -47,14 +51,17 @@ export default {
     await actions.app.oada.disconnect({connection_id})
   },
   async getUserInfo({actions, state}) {
+    console.log('OADAManager - getUserInfo')
     const myState = state.app.OADAManager;
     const {currentConnection: connection_id} = myState;
     let requests = [{
       path: '/users/me',
     }];
     await actions.app.oada.get({requests, connection_id})
+    console.log('OADAManager - getUserInfo done')
   },
   async fetchAndWatch({actions, state}) {
+    console.log('fetchAndWatch - start')
     const myState = state.app.OADAManager;
     const {currentConnection: connection_id} = myState;
     //Fetch field and seasons
@@ -74,7 +81,9 @@ export default {
         },
       }
     ];
+    console.log('fetchAndWatch - 1')
     const ret = await actions.app.oada.get({requests: watchRequests, connection_id})
+    console.log('fetchAndWatch - 2')
     let rewatchRequests = [];
     console.log('SOMETIMES ERRORS:', ret);
     if (ret.responses[0].error) {
@@ -109,6 +118,7 @@ export default {
       rewatchRequests.push(watchRequests[1]);
     }
     if (rewatchRequests.length > 0) await actions.app.oada.get({requests: rewatchRequests, connection_id})
+    console.log('fetchAndWatch - done')
   },
   initSeasonFields({state, actions}) {
     /*
@@ -262,6 +272,7 @@ export default {
     const myState = state.app.OADAManager;
     const myActions = actions.app.OADAManager;
     myState.domain = domain;
+    console.log('OADAManager - login')
     const {error} = await myActions.connect({domain, token});
     if (!error) {
       await myActions.getUserInfo();
@@ -270,6 +281,7 @@ export default {
       await myActions.initSeasonFields();
       await actions.view.Map.zoomBounds();
     }
+    console.log('OADAManager - done')
   },
   async onFieldChanged({state, actions}, props) {
     /*
