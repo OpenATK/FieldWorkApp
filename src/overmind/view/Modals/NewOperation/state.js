@@ -1,4 +1,7 @@
 export default {
   open: false,
-  name: ''
+  name: '',
+  useTemplate: false,
+  invertTemplate: false,
+  templateOperation: '',
 }
