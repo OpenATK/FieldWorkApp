@@ -1,7 +1,7 @@
 {
   "name": "field-work",
-  "version": "1.0.3",
-  "homepage": "",
+  "version": "1.0.4",
+  "homepage": "https://OpenATK.github.io/FieldWorkApp",
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@mapbox/geojson-area": "^0.2.2",
